@@ -38,6 +38,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//Middleware para archivos estaticos
+
+app.use(express.static(__dirname + '/public'));
+
 //Config Handlebars
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');

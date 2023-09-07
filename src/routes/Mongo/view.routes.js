@@ -11,7 +11,6 @@ router.get('/', async (req, res) => {
         let nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}` : '';
         let isValid = !(result.page <= 0 || result.page > result.totalPages)
         res.render('products', { result, prevLink, nextLink, isValid })
-        console.log(result.page);
 });
 
 export default router;

@@ -22,10 +22,8 @@ router.get('/', async (req, res) => {
     try {
         const availableFilter = filter ? {} : { available: filter };
         const options = { sort: { price: sort }, limit, page };
-        const response = await ProductModel.paginate(availableFilter, options);
+        const response = await ProductModel.paginate(availableFilter, options);  
         res.send({ status: 'Success', payload: response});
-/*         res.render("products", {response}) */
-        console.log(response);
     } catch (error) {
         res.status(400).json(error.message);
     }

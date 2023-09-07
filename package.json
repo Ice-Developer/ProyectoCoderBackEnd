@@ -19,6 +19,9 @@
     "mongoose-paginate-v2": "^1.7.31",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "connect-mongo": "^5.0.0",
+    "cookie-parser": "^1.4.6",
+    "express-session": "^1.17.3"
   }
 }

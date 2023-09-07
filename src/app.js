@@ -1,21 +1,37 @@
+//import dependencias
 import express from 'express';
-/* import productsRoutes from './routes/products.routes.js';
-import cartsRoutes from './routes/carts.routes.js';  */
-/* import realTimeProductsRoutes from './routes/realTimeProducts.routes.js'; */
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
-/* import {ProductManager} from '../src/managers/productManager.js';  */
+
+//import router
+import productRoutes from './routes/Mongo/productRoutes.js'
+import cartRoutes from './routes/Mongo/cartRoutes.js';
+import viewsRouter from './routes/Users/views.router.js';
+import usersViewRouter from './routes/Users/users.views.router.js';
+import sessionsRouter from './routes/Users/sessions.router.js'
+import productView from './routes/Mongo/view.routes.js';
+
+//import managers
 import dotenv from 'dotenv';
 import './db.js'
-import productRoutes from './mongoRoutes/productRoutes.js'
-import cartRoutes from './mongoRoutes/cartRoutes.js'
+
+//PARA SESSION
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+
+//COMENTADOS POR FILE SYSTEM
+/* import {ProductManager} from '../src/managers/productManager.js';  */
+/* import productsRoutes from './routes/products.routes.js';
+import cartsRoutes from './routes/carts.routes.js';  */
+/* import realTimeProductsRoutes from './routes/realTimeProducts.routes.js'; */
+
+
 
 dotenv.config();
+const app = express();
 
 /* let productManager = new ProductManager();  */
-
-const app = express();
 /* const Port = 8080; */
 
 //Middlewares
@@ -27,14 +43,37 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
+//SESSION
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URL,
+        ttl: 10 
+    }),
+    secret: "coderS3cr3t",
+    resave: false, //guarda en memoria
+    saveUninitialized: true, //lo guarda apenas se crea
+}));
 
+
+//ROUTERS
 /* app.use('/', express.static(__dirname + '/public')); */
+/* app.use("/api/products", productsRoutes);*/
+/* app.use('/realTimeProducts', realTimeProductsRoutes); */
 app.use("/api/products", productRoutes)
 app.use("/api/carts", cartRoutes);  
-/* app.use("/api/carts", cartsRoutes); */
-/* app.use("/api/products", productsRoutes);
-app.use('/realTimeProducts', realTimeProductsRoutes);
- */
+app.use("/products", productView);
+app.use("/", viewsRouter);
+app.use("/users", usersViewRouter);
+app.use("/api/sessions", sessionsRouter);
+
+
+
+
+
+const PORT = process.env.PORT;
+const httpServer = app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)})
+
+
 
 app.get('/', async (req, res) => {
     let allProducts = await productManager.getProducts();
@@ -47,8 +86,7 @@ app.get('/', async (req, res) => {
     }
 )
 
-const PORT = process.env.PORT;
-const httpServer = app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)})
+
 
 export const socketServer = new Server(httpServer);
 
@@ -59,6 +97,12 @@ socketServer.on('connection', async (socket) => {
     socket.emit('all-products', {dataProd});
     }) 
     
+
+
+
+
+
+
 /* //Devuelve todos los productos
 app.get('/productos', async (req, res) => {
     const productos = await productManager.getProducts();
@@ -79,10 +123,8 @@ app.get('/productos/query', async (req, res) => {
         const prodFiltrados = prodObjeto.slice(0, limit);
         res.json (prodFiltrados);
     }else {
-        res.json ({error: 'El monto requerido supera la cantidad de productos'});
-    
+        res.json ({error: 'El monto requerido supera la cantidad de productos'});   
     }
-
 })
 
 app.get('/productos/:pid', async (req, res) => {
@@ -93,11 +135,11 @@ app.get('/productos/:pid', async (req, res) => {
         res.json ({producto});
     }else {
         res.json ({error: 'producto no encontrado'});
-    }
-    
+    }    
 })
 
 const producto = async () => {
     await productManager.getProductById(1)
 }
 console.log(producto()); */
+

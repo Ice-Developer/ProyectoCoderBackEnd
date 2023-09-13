@@ -107,7 +107,6 @@ router.get("/githubcallback", passport.authenticate('github', {failureRedirect: 
         age: user.age,
         userType: "user"
     };
-    /* res.send({ status: "success",  payload: req.session.user,  message: "¡Primer logueo realizado! :)" }); */
     res.redirect('/users');
 })
 

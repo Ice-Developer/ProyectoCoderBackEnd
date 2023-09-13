@@ -13,6 +13,8 @@ router.get("/register", (req, res) => {
     res.render('register')
 });
 
+
+
 // Cuando ya tenemos una session activa con los datos del user, renderizamos la vista profile
 router.get("/", async (req, res) => {
     let page = parseInt(req.query.page);

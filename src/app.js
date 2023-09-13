@@ -51,11 +51,12 @@ app.set('view engine', 'handlebars');
 app.use(session({
     store: MongoStore.create({
         mongoUrl: process.env.MONGO_URL,
-        ttl: 10 
+        ttl: 60
     }),
     secret: "coderS3cr3t",
-    resave: false, //guarda en memoria
-    saveUninitialized: true, //lo guarda apenas se crea
+    resave: true, //guarda en memoria
+    saveUninitialized: false, 
+    //lo guarda apenas se crea
 }));
 
 

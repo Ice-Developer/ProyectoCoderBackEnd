@@ -10,6 +10,22 @@ router.get('/',(req,res)=>{
     res.render('index',{})
 });
 
+//Set a cookie:
+router.get('/setCookie', (req, res) => {
+    res.cookie("MiCookie", "Esta es la cookie de mi proyecto back end", {maxAge: 60000, signed: true}).send("Exito seteando la cookie");
+});
+
+//Get a cookie:
+router.get('/getCookie', (req, res) => {
+    res.send(req.signedCookies);
+})
+
+//Delete a cookie:
+router.get('/deleteCookie', (req, res) => {
+    res.clearCookie("MiCookie").send("Cookie eliminada");
+})
+
+
 
 //Session management:
 router.get("/session", (req, res) => {
@@ -28,30 +44,11 @@ router.get("/session", (req, res) => {
     }
 });
 
-//Login
-router.get('/login', (req, res) => {
-    const {username, password} = req.query;
-    if (username !== 'pepe' || password !== 'pepepass'){
-        return res.status(401).send("Login Failed, check your username and password.");
-    } else {
-        req.session.user = username;
-        req.session.admin = true;
-        res.send('Login Successful !');
-    }
-});
 
-router.get("/logout", (req, res) => {
-    req.session.destroy(error => {
-        if (error){
-            res.json({error: "error logout", mensaje: "Error al cerrar la sesion"});
-        }
-        res.send("Sesion cerrada correctamente.");
-    });
-});
 
 //Auth middleware:
 function auth(req, res, next){
-    if (req.session.user === 'pepe' && req.session.admin) {
+    if (req.session.user.email === 'adminCoder@coder.com.ar' && req.session.user.userType === "admin") {
         return next();
     } else{
         return res.status(403).send("Usuario no autorizado para ingresar a este recurso.");

@@ -1,4 +1,5 @@
 const form = document.getElementById('loginForm');
+const github = document.getElementById('github');
 
 form.addEventListener('submit', e => {
     e.preventDefault();
@@ -16,4 +17,11 @@ form.addEventListener('submit', e => {
             window.location.replace('/users');
         }
     })
+});
+
+
+github.addEventListener('click', e => {
+    e.preventDefault();
+    window.location.replace('/github/login')
+
 })

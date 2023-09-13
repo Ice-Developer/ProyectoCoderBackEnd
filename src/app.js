@@ -11,6 +11,7 @@ import viewsRouter from './routes/Users/views.router.js';
 import usersViewRouter from './routes/Users/users.views.router.js';
 import sessionsRouter from './routes/Users/sessions.router.js'
 import views from './routes/Mongo/view.routes.js';
+import github from './routes/Users/githubLogin.router.js';
 
 //import managers
 import dotenv from 'dotenv';
@@ -19,6 +20,11 @@ import './db.js'
 //PARA SESSION
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+
+//import for passport
+import passport from 'passport';
+import initializePassport from './config/passport.config.js';
+
 
 //COMENTADOS POR FILE SYSTEM
 /* import {ProductManager} from '../src/managers/productManager.js';  */
@@ -38,9 +44,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//Middleware para archivos estaticos
 
+//Middleware para archivos estaticos
 app.use(express.static(__dirname + '/public'));
+
 
 //Config Handlebars
 app.engine('handlebars', handlebars.engine());
@@ -59,6 +66,10 @@ app.use(session({
     //lo guarda apenas se crea
 }));
 
+//middeleware para passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //ROUTERS
 /* app.use('/', express.static(__dirname + '/public')); */
@@ -71,6 +82,7 @@ app.use("/carts", views);
 app.use("/", viewsRouter);
 app.use("/users", usersViewRouter);
 app.use("/api/sessions", sessionsRouter);
+app.use("/github", github);
 
 
 

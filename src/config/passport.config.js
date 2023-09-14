@@ -4,7 +4,6 @@ import GitHubStrategy from "passport-github2";
 import userModel from "../models/userModel.js";
 import { createHash, isValidPassword } from "../utils.js";
 
-
 //Declaramos la estrategia a utilizar
 const localStrategy = passportLocal.Strategy;
 

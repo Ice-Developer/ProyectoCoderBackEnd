@@ -56,8 +56,8 @@ app.set('view engine', 'handlebars');
 
 //SESSION
 app.use(session({
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URL,
+        store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URL /* "mongodb+srv://jtognidev:00Iceman00@cluster0.hzyqwa1.mongodb.net/ProyectCH" */,
         ttl: 60
     }),
     secret: "coderS3cr3t",
@@ -88,7 +88,7 @@ app.use("/api/sessions", sessionsRouter);
 
 
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT ;
 const httpServer = app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)})
 
 

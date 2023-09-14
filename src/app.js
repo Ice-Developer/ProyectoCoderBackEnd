@@ -11,7 +11,7 @@ import viewsRouter from './routes/Users/views.router.js';
 import usersViewRouter from './routes/Users/users.views.router.js';
 import sessionsRouter from './routes/Users/sessions.router.js'
 import views from './routes/Mongo/view.routes.js';
-import github from './routes/Users/githubLogin.router.js';
+/* import github from './routes/Users/githubLogin.router.js'; */
 
 //import managers
 import dotenv from 'dotenv';
@@ -82,7 +82,7 @@ app.use("/carts", views);
 app.use("/", viewsRouter);
 app.use("/users", usersViewRouter);
 app.use("/api/sessions", sessionsRouter);
-app.use("/github", github);
+/* app.use("/github", github); */
 
 
 

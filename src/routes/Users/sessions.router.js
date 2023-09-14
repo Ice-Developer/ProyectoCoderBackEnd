@@ -111,7 +111,9 @@ router.get("/githubcallback", passport.authenticate('github', {failureRedirect: 
 })
 
 
-
+router.get('/error', (req, res) => {
+    res.render('error', {error: "No se pudo autenticar el usuario usando GitHub"})
+});
 
 router.get("/fail-register", (req, res) => {
     res.status(401).send({ status: "error", message: "Error al registrar el usuario" })

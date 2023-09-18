@@ -48,7 +48,7 @@ router.get("/session", (req, res) => {
 
 //Auth middleware:
 function auth(req, res, next){
-    if (req.session.user.email === 'adminCoder@coder.com.ar' && req.session.user.userType === "admin") {
+    if (req.user.role === "admin") {
         return next();
     } else{
         return res.status(403).send("Usuario no autorizado para ingresar a este recurso.");

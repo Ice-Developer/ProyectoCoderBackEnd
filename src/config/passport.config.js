@@ -1,13 +1,37 @@
 import passport from "passport";
 import passportLocal from "passport-local";
 import GitHubStrategy from "passport-github2";
+import jwtStrategy from "passport-jwt";
 import userModel from "../models/userModel.js";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword, PRIVATE_KEY } from "../utils.js";
+import e from "express";
 
 //Declaramos la estrategia a utilizar
 const localStrategy = passportLocal.Strategy;
+const JwtStrategy = jwtStrategy.Strategy;
+const ExtractJwt = jwtStrategy.ExtractJwt;
 
 const initializePassport = () => {   
+    // JWT Strategy
+    passport.use('jwt', new JwtStrategy(
+        //objeto de configuracion
+        {  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+            secretOrKey: PRIVATE_KEY,
+        },
+        async (jwt_payload, done) => {
+            console.log("Entrando a passport Strategy con JWT");
+            try {
+                console.log("JWT obtenido por payload: ", jwt_payload )
+                return done(null, jwt_payload.user);
+            } catch (error) {
+                console.error(error);
+                return done(error);
+            }
+        }
+    )
+    )
+
+    //LocalStrategy     
     //Register
     passport.use('register', new localStrategy(
         { passReqToCallback: true, usernameField: 'email'},
@@ -35,7 +59,7 @@ const initializePassport = () => {
     )
 
     //Login
-    passport.use('login', new localStrategy(
+/*     passport.use('login', new localStrategy(
     { passReqToCallback: true, usernameField: 'email'},
         async (req, username, password, done) => {
             try {
@@ -53,7 +77,7 @@ const initializePassport = () => {
             }
         }
     )
-    )
+    )  */
 
     //Github Strategy
     passport.use('github',new GitHubStrategy({
@@ -91,7 +115,13 @@ const initializePassport = () => {
 
     //funciones de serializacion y deserializacion
     passport.serializeUser((user, done) => {
-        done(null, user._id);
+        const serializedUser = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            };
+        done(null, serializedUser);
     })
 
     passport.deserializeUser(async (id, done) => {
@@ -105,6 +135,14 @@ const initializePassport = () => {
 
 }
 
-
+const cookieExtractor=(req)=> {
+    let token = null;
+    console.log("entrando a cookie extractor");
+    if (req && req.cookies) {
+        token = req.cookies["jwtCookieToken"];
+        console.log("token encontrado " + token);
+    }
+    return token;
+}
 
 export default initializePassport;

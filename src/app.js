@@ -1,17 +1,19 @@
 //import dependencias
 import express from 'express';
-import __dirname from './utils.js';
+import {__dirname} from './utils.js';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
+import cookieParser from 'cookie-parser';
 
 //import router
 import productRoutes from './routes/Mongo/productRoutes.js'
 import cartRoutes from './routes/Mongo/cartRoutes.js';
 import viewsRouter from './routes/Users/views.router.js';
 import usersViewRouter from './routes/Users/users.views.router.js';
-import sessionsRouter from './routes/Users/sessions.router.js'
+import sessionsRouter from './routes/Users/register.router.js'
 import views from './routes/Mongo/view.routes.js';
-/* import github from './routes/Users/githubLogin.router.js'; */
+import jwtRouter from './routes/JWT/jwt.router.js'
+import github from './routes/Users/github.router.js'; 
 
 //import managers
 import dotenv from 'dotenv';
@@ -24,6 +26,7 @@ import MongoStore from 'connect-mongo';
 //import for passport
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
+
 
 
 //COMENTADOS POR FILE SYSTEM
@@ -40,6 +43,10 @@ const app = express();
 /* let productManager = new ProductManager();  */
 /* const Port = 8080; */
 
+//Cookies
+app.use(cookieParser("CoderS3cr3tC0d3"));
+
+
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -48,6 +55,10 @@ app.use(express.urlencoded({ extended: true }));
 //Middleware para archivos estaticos
 app.use(express.static(__dirname + '/public'));
 
+//middeleware para passport
+initializePassport();
+app.use(passport.initialize());
+/* app.use(passport.session()); */
 
 //Config Handlebars
 app.engine('handlebars', handlebars.engine());
@@ -57,7 +68,7 @@ app.set('view engine', 'handlebars');
 //SESSION
 app.use(session({
         store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URL /* "mongodb+srv://jtognidev:00Iceman00@cluster0.hzyqwa1.mongodb.net/ProyectCH" */,
+        mongoUrl: process.env.MONGO_URL ,
         ttl: 60
     }),
     secret: "coderS3cr3t",
@@ -66,10 +77,7 @@ app.use(session({
     //lo guarda apenas se crea
 }));
 
-//middeleware para passport
-initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 //ROUTERS
 /* app.use('/', express.static(__dirname + '/public')); */
@@ -82,7 +90,8 @@ app.use("/carts", views);
 app.use("/", viewsRouter);
 app.use("/users", usersViewRouter);
 app.use("/api/sessions", sessionsRouter);
-/* app.use("/github", github); */
+app.use("/api/jwt", jwtRouter)
+app.use("/api/github", github);
 
 
 

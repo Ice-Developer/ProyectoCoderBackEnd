@@ -14,7 +14,8 @@ const schema = new mongoose.Schema({
     logedBy: String,
     role:{
         type: String,
-        default: 'user'
+        default: 'user',
+        enum : ['user', 'admin']
     }
 })
 

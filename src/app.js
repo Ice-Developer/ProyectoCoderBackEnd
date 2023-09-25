@@ -5,19 +5,21 @@ import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import cookieParser from 'cookie-parser';
 
+
 //import router
 import productRoutes from './routes/Mongo/productRoutes.js'
 import cartRoutes from './routes/Mongo/cartRoutes.js';
 import viewsRouter from './routes/Users/views.router.js';
 import usersViewRouter from './routes/Users/users.views.router.js';
-import sessionsRouter from './routes/Users/register.router.js'
+import registerRouter from './routes/Users/register.router.js'
 import views from './routes/Mongo/view.routes.js';
 import jwtRouter from './routes/JWT/jwt.router.js'
 import github from './routes/Users/github.router.js'; 
 
 //import managers
-import dotenv from 'dotenv';
-import './db.js'
+/* import dotenv from 'dotenv'; */
+import configEnv from './config/env.config.js';
+import './config/db.js'
 
 //PARA SESSION
 import session from 'express-session';
@@ -37,7 +39,7 @@ import cartsRoutes from './routes/carts.routes.js';  */
 
 
 
-dotenv.config();
+/* dotenv.config(); */
 const app = express();
 
 /* let productManager = new ProductManager();  */
@@ -67,10 +69,8 @@ app.set('view engine', 'handlebars');
 
 //SESSION
 app.use(session({
-        store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URL ,
-        ttl: 60
-    }),
+    mongoUrl: configEnv.mongoUrl,
+    ttl: 60,
     secret: "coderS3cr3t",
     resave: true, //guarda en memoria
     saveUninitialized: false, 
@@ -89,7 +89,7 @@ app.use("/products", views);
 app.use("/carts", views);
 app.use("/", viewsRouter);
 app.use("/users", usersViewRouter);
-app.use("/api/sessions", sessionsRouter);
+app.use("/api/register", registerRouter);
 app.use("/api/jwt", jwtRouter)
 app.use("/api/github", github);
 
@@ -97,7 +97,7 @@ app.use("/api/github", github);
 
 
 
-const PORT = process.env.PORT ;
+const PORT = configEnv.port ;
 const httpServer = app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)})
 
 

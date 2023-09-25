@@ -1,13 +1,14 @@
 import passport from "passport";
-import passportLocal from "passport-local";
+import envCongif from "./env.config.js";
+/* import passportLocal from "passport-local"; */
 import GitHubStrategy from "passport-github2";
 import jwtStrategy from "passport-jwt";
 import userModel from "../models/userModel.js";
 import { createHash, isValidPassword, PRIVATE_KEY } from "../utils.js";
-import e from "express";
+/* import UserService from '../../services/user.services.js'; */
 
 //Declaramos la estrategia a utilizar
-const localStrategy = passportLocal.Strategy;
+/* const localStrategy = passportLocal.Strategy; */
 const JwtStrategy = jwtStrategy.Strategy;
 const ExtractJwt = jwtStrategy.ExtractJwt;
 
@@ -29,13 +30,13 @@ const initializePassport = () => {
             }
         }
     )
-    )
+    );
 
     //LocalStrategy     
     //Register
-    passport.use('register', new localStrategy(
+/*     passport.use('register', new localStrategy(
         { passReqToCallback: true, usernameField: 'email'},
-        async (req, username, password, done) => {
+        async (req, res,  username, password, done) => {
             const { first_name, last_name, email, age} = req.body;
             try {
                 const exists = await userModel.findOne({ email });
@@ -56,7 +57,9 @@ const initializePassport = () => {
             }
         }
         )
-    )
+    ); */
+
+
 
     //Login
 /*     passport.use('login', new localStrategy(
@@ -81,9 +84,9 @@ const initializePassport = () => {
 
     //Github Strategy
     passport.use('github',new GitHubStrategy({
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: process.env.GITHUB_CALLBACK_URL
+        clientID: envCongif.gitHubClientId,
+        clientSecret: envCongif.gitHubClientSecret,
+        callbackURL: envCongif.gitHubCallbackUrl,
     
     }, async (accessToken, refreshToken, profile, done) => {
         console.log(profile);

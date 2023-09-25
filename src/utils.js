@@ -2,7 +2,7 @@ import {fileURLToPath} from 'url'
 import { dirname } from 'path'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-
+import envCongif from './config/env.config.js'
 // Encriptacion
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 export const isValidPassword = (user, password) => bcrypt.compareSync(password, user.password);
@@ -28,8 +28,11 @@ export const uploader = multer({storage, onError: function(err, next) {
     }
 });
 
+
+/////////////////////////////////////////////////////////
 //Config JWT
-export const PRIVATE_KEY = 'ProyectoCoderHouseBackEndSecretKeyJWT';
+////////////////////////////////////////////////////////
+export const PRIVATE_KEY = envCongif.jwtPrivateKey;
 
 export const generateToken = (user) => {
     return jwt.sign({user}, PRIVATE_KEY, {expiresIn: '60s'})
@@ -42,6 +45,7 @@ export const authToken = (req, res, next) => {
         return res.status(401).send({error: 'User not authenticated or missing token'})
     };
     const token = authHeader.split(' ')[1]; // se hace el split para retirar la palabra Bearer y quedarnos solo con el token
+    
     //validar token
     jwt.verify(token, PRIVATE_KEY, (error, credentials) => {
         if (error) return res.status(403).send({error: 'Invalid token, access denied'});

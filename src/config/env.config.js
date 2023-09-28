@@ -13,7 +13,6 @@ dotenv.config({
 export default {
     port: process.env.PORT,
     mongoUrl: process.env.MONGO_URL,
-    /* mongoLocal: process.env.MONGO_LOCAL,  */
     gitHubClientId: process.env.GITHUB_CLIENT_ID,
     gitHubClientSecret: process.env.GITHUB_CLIENT_SECRET,
     gitHubCallbackUrl: process.env.GITHUB_CALLBACK_URL,

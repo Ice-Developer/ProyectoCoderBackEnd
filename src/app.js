@@ -5,6 +5,9 @@ import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import cookieParser from 'cookie-parser';
 
+//import DB
+import MongoSingleton from './config/db.js';
+
 
 //import router
 import productRoutes from './routes/Mongo/productRoutes.js'
@@ -98,9 +101,17 @@ app.use("/api/github", github);
 
 
 const PORT = configEnv.port ;
-const httpServer = app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)})
+const httpServer = app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
 
 
+const mongoInstance = async () => {
+    try {
+        await MongoSingleton.getInstance();
+    } catch (error) {
+        console.log(error);
+    }
+};
+mongoInstance();
 
 app.get('/', async (req, res) => {
     let allProducts = await productManager.getProducts();

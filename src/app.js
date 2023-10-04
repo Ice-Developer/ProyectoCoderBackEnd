@@ -12,12 +12,11 @@ import MongoSingleton from './config/db.js';
 //import router
 import productRoutes from './routes/Mongo/productRoutes.js'
 import cartRoutes from './routes/Mongo/cartRoutes.js';
-import viewsRouter from './routes/Users/views.router.js';
 import usersViewRouter from './routes/Users/users.views.router.js';
-import registerRouter from './routes/Users/register.router.js'
+import userRouter from './routes/Users/users.router.js'
 import views from './routes/Mongo/view.routes.js';
-import jwtRouter from './routes/JWT/jwt.router.js'
-import github from './routes/Users/github.router.js'; 
+/* import jwtRouter from './routes/JWT/jwt.router.js' */
+/* import github from './routes/Users/github.router.js'; */ 
 
 //import managers
 /* import dotenv from 'dotenv'; */
@@ -90,11 +89,10 @@ app.use("/api/products", productRoutes)
 app.use("/api/carts", cartRoutes);  
 app.use("/products", views);
 app.use("/carts", views);
-app.use("/", viewsRouter);
 app.use("/users", usersViewRouter);
-app.use("/api/register", registerRouter);
-app.use("/api/jwt", jwtRouter)
-app.use("/api/github", github);
+app.use("/api/users", userRouter);
+/* app.use("/api/jwt", jwtRouter) */
+/* app.use("/api/github", github); */
 
 
 

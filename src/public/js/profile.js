@@ -4,7 +4,7 @@ const accessAdmin = document.getElementById('accessAdmin');
 
 logout.addEventListener('click', e => {
     e.preventDefault();
-    fetch('/api/jwt/logout', {
+    fetch('/api/users/logout', {
         method: 'GET',
     }).then(result => {
         if (result.status === 200) {
@@ -20,6 +20,7 @@ logout.addEventListener('click', e => {
 accessAdmin.value === "admin" ? "" : accessAdmin.style.display = "none";
 accessAdmin.addEventListener('click', e => {
     e.preventDefault();
-    window.location.replace(`/api/jwt/private/${accessAdmin.value}`);
+    console.log(accessAdmin.value);
+    window.location.replace(`/api/users/private/${accessAdmin.value}`);
 });
 

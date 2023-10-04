@@ -8,8 +8,8 @@ form.addEventListener('submit', e => {
     data.forEach((value, key) => obj[key] = value);
     console.log("Objeto formado:");
     console.log(obj);
-    
-    fetch('/api/register/register', {
+
+    fetch('/api/users/register', {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: {
@@ -18,6 +18,7 @@ form.addEventListener('submit', e => {
 
     }).then(result => {
         if (result.status === 200) {
+            alert("Usuario creado con exito");
             window.location.replace('/users/login')
         }
     })

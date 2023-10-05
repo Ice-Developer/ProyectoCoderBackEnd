@@ -1,7 +1,7 @@
 //import dependencias
 import express from 'express';
 import {__dirname} from './utils.js';
-import { Server } from 'socket.io';
+/* import { Server } from 'socket.io'; */
 import handlebars from 'express-handlebars';
 import cookieParser from 'cookie-parser';
 
@@ -10,11 +10,11 @@ import MongoSingleton from './config/db.js';
 
 
 //import router
-import productRoutes from './routes/Mongo/productRoutes.js'
-import cartRoutes from './routes/Mongo/cartRoutes.js';
-import usersViewRouter from './routes/Users/users.views.router.js';
-import userRouter from './routes/Users/users.router.js'
-import views from './routes/Mongo/view.routes.js';
+import productRoutes from './routes/Mongo/product.router.js'
+import cartRoutes from './routes/Mongo/cart.router.js';
+import usersViewRouter from './routes/Mongo/users.views.router.js';
+import userRouter from './routes/Mongo/users.router.js'
+import views from './routes/Mongo/view.router.js';
 /* import jwtRouter from './routes/JWT/jwt.router.js' */
 /* import github from './routes/Users/github.router.js'; */ 
 
@@ -25,7 +25,7 @@ import './config/db.js'
 
 //PARA SESSION
 import session from 'express-session';
-import MongoStore from 'connect-mongo';
+/* import MongoStore from 'connect-mongo'; */
 
 //import for passport
 import passport from 'passport';
@@ -123,7 +123,7 @@ app.get('/', async (req, res) => {
 )
 
 
-
+/* 
 export const socketServer = new Server(httpServer);
 
 socketServer.on('connection', async (socket) => {
@@ -131,7 +131,7 @@ socketServer.on('connection', async (socket) => {
     console.log(data);
     const dataProd = JSON.parse(data);
     socket.emit('all-products', {dataProd});
-    }) 
+    }) */ 
     
 
 

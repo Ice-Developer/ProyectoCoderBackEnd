@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {ProductModel} from "../../models/productModel.js";
+import {ProductModel} from "../../services/db/models/productModel.js";
 import passport from "passport";
 import envConfig from '../../config/env.config.js';
 

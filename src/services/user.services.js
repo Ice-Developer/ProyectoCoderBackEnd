@@ -1,5 +1,5 @@
 
-import userModel from "../models/userModel.js";
+import userModel from "../services/db/models/userModel.js";
 import { createHash } from '../utils.js';
 import { isValidPassword } from '../utils.js';
 import { generateToken } from '../utils.js';

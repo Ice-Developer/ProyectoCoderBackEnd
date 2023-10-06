@@ -20,7 +20,7 @@ export  const  registerController = async (req, res) => {
 export const loginController = async (req, res) => {
     try {
         const { email, password } = req.body;
-        await services.login(email, password, res);    
+        await userService.login(email, password, res);    
         return res.status(200).send({message: "Usuario logueado con exito" });
     
     } catch (error) {
@@ -31,16 +31,16 @@ export const loginController = async (req, res) => {
 export const logAuthenticate = async (req, res) => {
     let page = parseInt(req.query.page);
         if (!page) page = 1;
-        await services.loginShowProducts(page, req, res)       
+        await userService.loginShowProducts(page, req, res)       
 };
 
 //controler login github
 export const gitHubCallbackController = async (req, res) => {
     const user = req.user;
-    await services.gitHubLogin(user, res);
+    await userService.gitHubLogin(user, res);
 }
 
 //controler logout
 export const logoutController = async (req, res) => {
-    await services.logout('jwtCookieToken', res);   
+    await userService.logout('jwtCookieToken', res);   
     }

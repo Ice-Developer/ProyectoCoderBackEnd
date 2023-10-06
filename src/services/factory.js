@@ -10,23 +10,23 @@ async function initializeMongoService (){
     console.log("Iniciando DAO servicio para MongoDB");
     try {
         await MongoSingleton.getInstance()
-        console.log("Conexión exitosa a MongoDB");
+        /* console.log("Conexión exitosa a MongoDB"); */
         
         //Inicializo distinitos servicios
         const {default: UserDaoMongo} = await import("./dao/mongo/user.services.js")
         userService = new UserDaoMongo()
-        console.log("servicio de usuario inicializado en mongo");
-        console.log(userService);
+      /*   console.log("servicio de usuario inicializado en mongo");
+        console.log(userService); */
 
         const {default: ProductDaoMongo} = await import("./dao/mongo/product.services.js")
         productService = new ProductDaoMongo()
-        console.log("servicio de producto inicializado en mongo");
-        console.log(productService);
+/*         console.log("servicio de producto inicializado en mongo");
+        console.log(productService); */
 
         const {default: CartDaoMongo} = await import("./dao/mongo/cart.services.js")
         cartService = new CartDaoMongo()
-        console.log("servicio de cart inicializado en mongo");
-        console.log(cartService);
+/*         console.log("servicio de cart inicializado en mongo");
+        console.log(cartService); */
 
     } catch (error) {
         console.error("Error al inicializar el servicio de MongoDB", error);

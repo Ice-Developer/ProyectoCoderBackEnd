@@ -5,7 +5,7 @@ import {productService} from "../services/factory.js";
 export const createProduct = async (req, res) => {
     const { body } = req;
     try {
-        const response = await services.createProduct(body); 
+        const response = await productService.createProduct(body); 
         res.status(200).json(response);
     } catch (error) {
         res.status(400).json(error.message);
@@ -18,7 +18,7 @@ export const getProducts = async (req, res) => {
     const sort = req.query.sort === 'desc' ? -1 : 1;
     const filter = req.query.filter === 'false' ? false : true;
     try {
-        const response = await services.getAllProducts(limit, page, sort, filter);  
+        const response = await productService.getAllProducts(limit, page, sort, filter);  
         res.send({ status: 'Success', payload: response});
     } catch (error) {
         res.status(400).json(error.message);

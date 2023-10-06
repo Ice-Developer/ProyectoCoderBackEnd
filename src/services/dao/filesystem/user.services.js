@@ -23,6 +23,7 @@ export default class UserService {
 
 
     login = async (email, password, res) => {
+            console.log("recibo datos en services");
             const exists = await userModel.findOne({ email });
             if (!exists) {
                 return console.log("Usuario no encontrado");

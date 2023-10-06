@@ -1,4 +1,4 @@
-import UserServices from '../services/db/user.services.js';
+import UserServices from '../services/dao/mongo/user.services.js';
 
 const services = new UserServices();
 
@@ -28,6 +28,16 @@ export const loginController = async (req, res) => {
     }
 }
 
+export const logAuthenticate = async (req, res) => {
+    let page = parseInt(req.query.page);
+        if (!page) page = 1;
+        let result = await services.loginShowProducts(page, res) /* ProductModel.paginate({}, {page, lean: true })
+        let prevLink = result.hasPrevPage ? `http://localhost:${PORT}/users?page=${result.prevPage}` : '';
+        let nextLink = result.hasNextPage ? `http://localhost:${PORT}/users?page=${result.nextPage}` : '';
+        let isValid = !(result.page <= 0 || result.page > result.totalPages)
+
+        res.render('profile', {user: req.user,  result, prevLink, nextLink, isValid }) */
+}
 
 //controler login github
 export const gitHubCallbackController = async (req, res) => {

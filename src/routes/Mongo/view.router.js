@@ -1,6 +1,6 @@
 import express from 'express';
-import { ProductModel } from '../../services/db/models/productModel.js';
-import { CartModel } from '../../services/db/models/cartModel.js';
+import { ProductModel } from '../../services/dao/mongo/models/productModel.js'
+import { CartModel } from '../../services/dao/mongo/models/cartModel.js';
 import envConfig from '../../config/env.config.js';
 
 const router = express.Router();

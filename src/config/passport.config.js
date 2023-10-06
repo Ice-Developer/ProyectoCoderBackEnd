@@ -2,7 +2,7 @@ import passport from "passport";
 import envCongif from "./env.config.js";
 import GitHubStrategy from "passport-github2";
 import jwtStrategy from "passport-jwt";
-import userModel from "../services/db/models/userModel.js";
+import userModel from "../services/dao/mongo/models/userModel.js";
 import {PRIVATE_KEY } from "../utils.js";
 
 

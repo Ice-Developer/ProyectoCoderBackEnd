@@ -1,4 +1,4 @@
-import { ProductModel } from "../services/db/models/productModel.js";
+import { ProductModel } from "./models/productModel.js";
 
 
 export default class ProductService {

@@ -1,4 +1,4 @@
-import CartServices from "../services/cart.services.js";
+import CartServices from "../services/db/cart.services.js";
 
 const services = new CartServices();
 
@@ -7,10 +7,15 @@ export const creatNewCart = async (req, res)=>{
     try {
         const {body} = req;
     const result = await services.createCart(body);
-    res.send({ status: "200", message: "Carrito creado con exito con ID: " + result.id })
-    } catch (error) {
-        res.status(400).json(error.message);
+    
+    if (cart) {
+        res.send({ status: "200", message: "Carrito creado con exito con ID: " + result.id , payload: cart})
     }
+    
+    }catch (error) {
+        console.error('Error al crear el carrito:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message }); 
+    } 
 };
 
 

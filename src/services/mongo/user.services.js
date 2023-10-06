@@ -1,8 +1,8 @@
 
-import userModel from "../services/db/models/userModel.js";
-import { createHash } from '../utils.js';
-import { isValidPassword } from '../utils.js';
-import { generateToken } from '../utils.js';
+import userModel from "./models/userModel.js";
+import { createHash } from '../../utils.js';
+import { isValidPassword } from '../../utils.js';
+import { generateToken } from '../../utils.js';
 
 export default class UserService {
 

@@ -1,4 +1,4 @@
-import UserServices from '../services/user.services.js';
+import UserServices from '../services/db/user.services.js';
 
 const services = new UserServices();
 

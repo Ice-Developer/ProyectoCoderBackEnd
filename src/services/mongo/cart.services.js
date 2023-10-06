@@ -1,5 +1,5 @@
-import { CartModel } from "../services/db/models/cartModel.js";
-import { ProductModel } from "../services/db/models/productModel.js";
+import { CartModel } from "./models/cartModel.js";
+import { ProductModel } from "./models/productModel.js";
 
 
 export default class CartServices {
@@ -37,7 +37,6 @@ export default class CartServices {
     };
 
     deleteProdInCart = async (cid, pid)=> {
-        console.log(cid, pid);
         const cart = await CartModel.findOne(cid );
         const product = await ProductModel.findOne(pid); 
         
@@ -48,8 +47,6 @@ export default class CartServices {
                 existingProduct.quantity -=1 :
                 cart.products.splice(p => p.product != pid)
             }
-            
-            // Guardamos los cambios en el carrito
             await cart.save();
             return cart;
         } else {
@@ -60,8 +57,6 @@ export default class CartServices {
         const cart = await CartModel.findOne(cid);     
         if (cart) {
             cart.products.splice (0, cart.products.length);
-            
-            // Guardamos los cambios en el carrito
             await cart.save();
             return cart;
         } else {

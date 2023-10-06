@@ -63,6 +63,15 @@ export default class UserService {
     
         res.redirect('/users');
     };
+
+    loginShowProducts = async (page, res) => {
+        let result = await ProductModel.paginate({}, {page, lean: true });
+        let prevLink = result.hasPrevPage ? `http://localhost:${PORT}/users?page=${result.prevPage}` : '';
+        let nextLink = result.hasNextPage ? `http://localhost:${PORT}/users?page=${result.nextPage}` : '';
+        let isValid = !(result.page <= 0 || result.page > result.totalPages)
+
+        res.render('profile', {user: req.user,  result, prevLink, nextLink, isValid })
+    };
 }
 
 

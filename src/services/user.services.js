@@ -1,9 +1,12 @@
 
 import userModel from "../models/userModel.js";
+import {ProductModel} from "../models/productModel.js";
 import { createHash } from '../utils.js';
 import { isValidPassword } from '../utils.js';
 import { generateToken } from '../utils.js';
+import envConfig from "../config/env.config.js";
 
+const PORT = envConfig.port
 export default class UserService {
 
     getAll = async () => {
@@ -64,17 +67,16 @@ export default class UserService {
         res.redirect('/users');
     };
 
-    loginShowProducts = async (page, res) => {
+    loginShowProducts = async (page, req ,res) => {
         let result = await ProductModel.paginate({}, {page, lean: true });
-        let prevLink = result.hasPrevPage ? `http://localhost:${PORT}/users?page=${result.prevPage}` : '';
-        let nextLink = result.hasNextPage ? `http://localhost:${PORT}/users?page=${result.nextPage}` : '';
-        let isValid = !(result.page <= 0 || result.page > result.totalPages)
-
-        res.render('profile', {user: req.user,  result, prevLink, nextLink, isValid })
+            let prevLink = result.hasPrevPage ? `http://localhost:${PORT}/users?page=${result.prevPage}` : '';
+            let nextLink = result.hasNextPage ? `http://localhost:${PORT}/users?page=${result.nextPage}` : '';
+            let isValid = !(result.page <= 0 || result.page > result.totalPages)
+    
+            return res.render('profile', {user: req.user,  result, prevLink, nextLink, isValid })            
     };
+
 }
-
-
 
     /*     findByUsername = async (userName) => {
         let result = await userModel.findOne({ userName });

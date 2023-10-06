@@ -14,7 +14,7 @@ export  const  registerController = async (req, res) => {
     };
     const result = await services.save(user);
     res.send({ status: "200", message: "Usuario creado con exito con ID: " + result.id });
-}
+};
 
 //controler login
 export const loginController = async (req, res) => {
@@ -26,16 +26,21 @@ export const loginController = async (req, res) => {
     } catch (error) {
         return res.status(500).send({ status: 'error', message: "Error interno de la aplicacion, controller" })
     }
-}
+};
 
+export const logAuthenticate = async (req, res) => {
+    let page = parseInt(req.query.page);
+        if (!page) page = 1;
+        await services.loginShowProducts(page, req, res)       
+};
 
 //controler login github
 export const gitHubCallbackController = async (req, res) => {
     const user = req.user;
     await services.gitHubLogin(user, res);
-}
+};
 
 //controler logout
 export const logoutController = async (req, res) => {
     await services.logout('jwtCookieToken', res);   
-    }
+};

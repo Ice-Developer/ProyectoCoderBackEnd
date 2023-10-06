@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+/* import dotenv from "dotenv"; */
 import envConfig from "./env.config.js";
-dotenv.config()
+
+/* dotenv.config() */
 
 //conexion con patro singleton, la misma impide que se vuelva a abrir una nueva conexion a la base de datos por error
 

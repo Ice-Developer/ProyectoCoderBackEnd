@@ -1,6 +1,6 @@
-import ProductService from "../services/dao/mongo/product.services.js";
+import {productService} from "../services/factory.js";
 
-const services = new ProductService();
+/* const services = new productService(); */
 
 export const createProduct = async (req, res) => {
     const { body } = req;

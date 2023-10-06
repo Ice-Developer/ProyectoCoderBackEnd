@@ -1,6 +1,6 @@
-import CartServices from "../services/dao/mongo/cart.services.js";
+import {cartService} from "../services/factory.js";
 
-const services = new CartServices();
+/* const services = new cartService(); */
 
 //controller create cart
 export const creatNewCart = async (req, res)=>{

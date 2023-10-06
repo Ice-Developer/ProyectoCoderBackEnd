@@ -1,5 +1,5 @@
-import envConfig from "../config/env.config"
-import MongoSingleton from "../config/db"
+import envConfig from "../config/env.config.js"
+import MongoSingleton from "../config/db.js"
 
 let userService
 let productService
@@ -73,3 +73,4 @@ switch (envConfig.persistence) {
 }
 
 
+export {userService, productService, cartService}

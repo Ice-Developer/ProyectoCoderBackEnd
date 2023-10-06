@@ -1,6 +1,6 @@
-import UserServices from '../services/dao/mongo/user.services.js';
+import {userService} from '../services/factory.js';
 
-const services = new UserServices();
+/* const services = new userService(); */
 
 // controller registro por formulario
 export  const  registerController = async (req, res) => {
@@ -31,13 +31,8 @@ export const loginController = async (req, res) => {
 export const logAuthenticate = async (req, res) => {
     let page = parseInt(req.query.page);
         if (!page) page = 1;
-        let result = await services.loginShowProducts(page, res) /* ProductModel.paginate({}, {page, lean: true })
-        let prevLink = result.hasPrevPage ? `http://localhost:${PORT}/users?page=${result.prevPage}` : '';
-        let nextLink = result.hasNextPage ? `http://localhost:${PORT}/users?page=${result.nextPage}` : '';
-        let isValid = !(result.page <= 0 || result.page > result.totalPages)
-
-        res.render('profile', {user: req.user,  result, prevLink, nextLink, isValid }) */
-}
+        await services.loginShowProducts(page, req, res)       
+};
 
 //controler login github
 export const gitHubCallbackController = async (req, res) => {

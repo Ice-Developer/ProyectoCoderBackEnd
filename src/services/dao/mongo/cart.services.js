@@ -45,7 +45,7 @@ export default class CartServices {
             if (existingProduct) {
                 existingProduct.quantity > 1 ?
                 existingProduct.quantity -=1 :
-                cart.products.splice(p => p.product != pid)
+                cart.products.splice(cart.products.indexOf(existingProduct), 1);
             }
             await cart.save();
             return cart;

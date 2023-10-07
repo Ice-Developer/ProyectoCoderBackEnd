@@ -1,3 +1,4 @@
+import cart from "../services/dao/filesystem/models/cartModel.js";
 import {cartService} from "../services/factory.js";
 
 /* const services = new cartService(); */
@@ -9,7 +10,7 @@ export const creatNewCart = async (req, res)=>{
     const result = await cartService.createCart(body);
     
     if (cart) {
-        res.send({ status: "200", message: "Carrito creado con exito con ID: " + result.id , payload: cart})
+        res.send({ status: "200", message: "Carrito creado con exito con ID: " + result.id , payload: result})
     }
     
     }catch (error) {

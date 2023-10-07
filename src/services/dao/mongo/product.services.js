@@ -7,7 +7,7 @@ export default class ProductService {
         const response = await ProductModel.create(product);
         if (response) {
             return response;
-        }else{
+        } else {
             return null;
         }
     };
@@ -15,10 +15,37 @@ export default class ProductService {
     getAllProducts = async (limit, page, sort, filter) => {
         const availableFilter = filter ? {} : { available: filter };
         const options = { sort: { price: sort }, limit, page };
-        const response = await ProductModel.paginate(availableFilter, options);  
+        const response = await ProductModel.paginate(availableFilter, options);
         if (response) {
             return response;
-        }else{
+        } else {
+            return null;
+        }
+    };
+
+    getById = async (id) => {
+        const response = await ProductModel.findOne(id);
+        if (response) {
+            return response;
+        } else {
+            return null;
+        }
+    };
+
+    update = async (id, product) => {
+        const response = await ProductModel.updateOne(id, product);
+        if (response) {
+            return response;
+        } else {
+            return null;
+        }
+    };
+
+    delete = async (id) => {
+        const response = await ProductModel.deleteOne(id);
+        if (response) {
+            return response;
+        } else {
             return null;
         }
     };

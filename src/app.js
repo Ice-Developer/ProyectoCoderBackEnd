@@ -6,7 +6,7 @@ import handlebars from 'express-handlebars';
 import cookieParser from 'cookie-parser';
 
 //import DB
-import MongoSingleton from './config/db.js';
+/* import MongoSingleton from './config/db.js'; */
 
 
 //import router

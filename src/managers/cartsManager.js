@@ -1,6 +1,5 @@
 import fs from 'fs';
 import { ProductManager } from './productManager.js'; 
-
 export class CartManager{
     #carts;
     #cartDirPath;

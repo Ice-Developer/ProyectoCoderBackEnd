@@ -11,17 +11,6 @@
     "available": true
   },
   {
-    "id": 2,
-    "title": "Champú Revitalizante",
-    "description": "Champú para cabello revitalizante 250 ml",
-    "price": 350,
-    "status": true,
-    "thumbnail": "http://www.champurevital.com",
-    "code": "CR250RL2",
-    "stock": 0,
-    "available": false
-  },
-  {
     "id": 3,
     "title": "Camisa de Algodón",
     "description": "Camisa de algodón de manga corta",
@@ -174,5 +163,35 @@
     "code": "IM150HO26",
     "stock": 7,
     "available": true
+  },
+  {
+    "id": 17,
+    "title": "prueba",
+    "description": "prueba",
+    "price": 450,
+    "status": true,
+    "thumbnail": "http://www.camisaalgodon.com",
+    "code": "prueba",
+    "stock": 20
+  },
+  {
+    "id": 1696793959960,
+    "title": "prueba1",
+    "description": "prueba",
+    "price": 450,
+    "status": true,
+    "thumbnail": "http://www.camisaalgodon.com",
+    "code": "prueba11",
+    "stock": 20
+  },
+  {
+    "id": 1696794010262,
+    "title": "prueba1",
+    "description": "prueba",
+    "price": 450,
+    "status": true,
+    "thumbnail": "http://www.camisaalgodon.com",
+    "code": "prueba22",
+    "stock": 20
   }
 ]

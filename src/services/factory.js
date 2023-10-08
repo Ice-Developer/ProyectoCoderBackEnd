@@ -44,8 +44,8 @@ async function initializeFileSyste() {
 
         const { default: ProductDaoFileSystem } = await import("./dao/filesystem/product.services.js")
         productService = new ProductDaoFileSystem()
-        console.log("servicio de producto inicializado en file system");
-        console.log(productService);
+     /*    console.log("servicio de producto inicializado en file system");
+        console.log(productService); */
 
         const { default: CartDaoFileSystem } = await import("./dao/filesystem/cart.services.js")
         cartService = new CartDaoFileSystem()

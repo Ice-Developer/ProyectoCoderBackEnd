@@ -2,7 +2,7 @@ import fs from 'fs';
 import { __dirname } from '../../../utils.js';
 import Product from './models/productModel.js';
 
-const product = new Product();
+/* const product = new Product(); */
 
 export default class ProductServices {
     #products;
@@ -23,7 +23,7 @@ export default class ProductServices {
     }
 
     generateId() {
-        return this.#products.length + 1;
+        return (new Date()).getTime();
     }
 
     #preparararDirectorioBase = async () => {
@@ -34,29 +34,23 @@ export default class ProductServices {
             }
     }
 
-    createProduct = async (data) => {
-        let newProduct = new Product(data);
+    createProduct = async (body) => {
+
+        let newProduct = new Product(body.title, body.description, body.price, body.status, body.thumbnail,  body.code, body.stock, body.available );
         console.log(newProduct);
+
+        
         try {
             await this.#preparararDirectorioBase()
-            //creamos el directorio si no existe
-            /*  await this.#fileSystem.promises.mkdir(this.#productDirPath, { recursive: true });
-            //verificamos si el archivo existe
-            if (!this.#fileSystem.existsSync(this.#productFilePath)) {
-                await this.#fileSystem.promises.writeFile(this.#productFilePath, '[]');
-            } */
             let productsFile = await this.#fileSystem.promises.readFile(this.#productFilePath, 'utf-8');
             this.#products = JSON.parse(productsFile);
             if (this.isCodeDuplicated(newProduct.code)) {
                 return { error: 'El codigo del producto ya existe' };
             }
-            let id = this.#products.length + 1;
-            let response = { ...newProduct, id: id };
+            let response = { ...newProduct, id: this.generateId() };
             this.#products.push(response);
-
-
             await this.#fileSystem.promises.writeFile(this.#productFilePath, JSON.stringify(this.#products, null, 2));
-            this.emit('change', this.#products);
+            return response;
         }
         catch (error) {
             console.error(`Error al crear el producto nuevo: ${JSON.stringify(newProd)}, detalle del error: ${error}`);
@@ -66,16 +60,10 @@ export default class ProductServices {
 
     getAllProducts = async () => {
         try {
-            //creamos el directorio si no existe
-            await this.#fileSystem.promises.mkdir(this.#productDirPath, { recursive: true });
-
-            //verificamos si el archivo existe
-            if (!this.#fileSystem.existsSync(this.#productFilePath)) {
-                await this.#fileSystem.promises.writeFile(this.#productFilePath, '[]');
-            }
+            await this.#preparararDirectorioBase()
             let productsFile = await this.#fileSystem.promises.readFile(this.#productFilePath, 'utf-8');
-            this.#products = productsFile;
-            return this.#products;
+            this.#products = JSON.parse(productsFile, null, 2);
+            return  this.#products;
         }
         catch (error) {
             console.error(`Error al obtener los productos: ${error}`);
@@ -83,23 +71,17 @@ export default class ProductServices {
         }
     }
 
-    getById = async (id) => {
+    getById = async (data) => {
+        let pid = parseInt(data._id)
+        console.log(pid);
         try {
-            //creamos el directorio si no existe
-            await this.#fileSystem.promises.mkdir(this.#productDirPath, { recursive: true });
-
-            //verificamos si el archivo existe
-            if (!this.#fileSystem.existsSync(this.#productFilePath)) {
-                await this.#fileSystem.promises.writeFile(this.#productFilePath, '[]');
-            }
-
+            await this.#preparararDirectorioBase()
             let productsFile = await this.#fileSystem.promises.readFile(this.#productFilePath, 'utf-8');
-
             this.#products = JSON.parse(productsFile);
-
-            let product = this.#products.find(product => product.id === id);
-            if (product) {
-                return product;
+            let response = this.#products.find(product => product.id === pid);
+            if (response) {
+                console.log(response);
+                return response;
             }
 
         }
@@ -108,47 +90,31 @@ export default class ProductServices {
         }
     }
 
-    update = async (id, producto /* clave, valor */) => {
+    update = async (data, producto /* clave, valor */) => {
+        let id = parseInt(data._id);
+        console.log(producto);
         try {
-            //creamos el directorio si no existe
-            await this.#fileSystem.promises.mkdir(this.#productDirPath, { recursive: true });
-
-            //verificamos si el archivo existe
-            if (!this.#fileSystem.existsSync(this.#productFilePath)) {
-                await this.#fileSystem.promises.writeFile(this.#productFilePath, '[]');
-            }
-
+            await this.#preparararDirectorioBase()
             let productsFile = await this.#fileSystem.promises.readFile(this.#productFilePath, 'utf-8');
-
             this.#products = JSON.parse(productsFile);
-
             let product = this.#products.find(product => product.id === id);
 
             Object.assign(product, producto);
             await this.#fileSystem.promises.writeFile(this.#productFilePath, JSON.stringify(this.#products, null, 2));
-
+            return product;
 
         } catch (error) {
             console.error(`Error al actualizar el producto con id: ${id}, detalle del error: ${error}`);
         }
     }
 
-    delete = async (id) => {
+    delete = async (data) => {
+        let id = parseInt(data._id);
         try {
-            //creamos el directorio si no existe
-            await this.#fileSystem.promises.mkdir(this.#productDirPath, { recursive: true });
-
-            //verificamos si el archivo existe
-            if (!this.#fileSystem.existsSync(this.#productFilePath)) {
-                await this.#fileSystem.promises.writeFile(this.#productFilePath, '[]');
-            }
-
+            await this.#preparararDirectorioBase()
             let productsFile = await this.#fileSystem.promises.readFile(this.#productFilePath, 'utf-8');
-
             this.#products = JSON.parse(productsFile);
-
             let product = this.#products.find(product => product.id === id);
-
             if (product) {
                 this.#products = this.#products.filter(product => product.id !== id);
                 await this.#fileSystem.promises.writeFile(this.#productFilePath, JSON.stringify(this.#products, null, 2));

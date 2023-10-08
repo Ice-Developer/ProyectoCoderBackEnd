@@ -6,7 +6,7 @@ export const createProduct = async (req, res) => {
     const { body } = req;
     try {
         const response = await productService.createProduct(body);
-        res.status(200).json(response);
+        res.send({ status: 'Success', payload: response })
     } catch (error) {
         res.status(400).json(error.message);
     }
@@ -55,4 +55,3 @@ export const deleteProdById = async (req, res) => {
         res.status(400).json(error.message);
     }
 };
-

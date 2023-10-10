@@ -34,13 +34,13 @@ async function initializeMongoService() {
     }
 };
 
-async function initializeFileSyste() {
+async function initializeFileSystem() {
     console.log("Iniciando DAO servicio para FileSystem");
     try {
-        /*         const {default: UserDaoFileSystem} = await import("./dao/fileSystem/user.services.js")
-                userService = new UserDaoFileSystem()
-                console.log("servicio de usuario inicializado en file system");
-                console.log(userService); */
+        const {default: UserDaoFileSystem} = await import("./dao/filesystem/user.services.js")
+        userService = new UserDaoFileSystem()
+        console.log("servicio de usuario inicializado en file system");
+        console.log(userService); 
 
         const { default: ProductDaoFileSystem } = await import("./dao/filesystem/product.services.js")
         productService = new ProductDaoFileSystem()
@@ -64,7 +64,7 @@ switch (envConfig.persistence) {
         initializeMongoService()
         break;
     case "files":
-        initializeFileSyste()
+        initializeFileSystem()
         break;
     default:
         console.error("Persistencia no valida en la configuracion: " + envConfig.persistence);

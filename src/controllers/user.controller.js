@@ -12,7 +12,7 @@ export  const  registerController = async (req, res) => {
         age,
         password 
     };
-    const result = await services.save(user);
+    const result = await userService.save(user);
     res.send({ status: "200", message: "Usuario creado con exito con ID: " + result.id });
 }
 

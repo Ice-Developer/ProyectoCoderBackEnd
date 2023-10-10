@@ -1,12 +1,3 @@
-
-<<<<<<< HEAD:src/services/user.services.js
-import userModel from "../models/userModel.js";
-import {ProductModel} from "../models/productModel.js";
-import { createHash } from '../utils.js';
-import { isValidPassword } from '../utils.js';
-import { generateToken } from '../utils.js';
-import envConfig from "../config/env.config.js";
-=======
 import userModel from "./models/userModel.js";
 import {ProductModel }from "./models/productModel.js";
 import { createHash } from '../../../utils.js';
@@ -14,8 +5,6 @@ import { isValidPassword } from '../../../utils.js';
 import { generateToken } from '../../../utils.js';
 import envConfig from '../../../config/env.config.js';
 
-const PORT = envConfig.port;
->>>>>>> dao:src/services/dao/mongo/user.services.js
 
 const PORT = envConfig.port
 export default class UserService {

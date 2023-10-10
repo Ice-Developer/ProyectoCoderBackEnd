@@ -31,30 +31,16 @@ export const loginController = async (req, res) => {
 export const logAuthenticate = async (req, res) => {
     let page = parseInt(req.query.page);
         if (!page) page = 1;
-<<<<<<< HEAD
-        await services.loginShowProducts(page, req, res)       
-=======
         await userService.loginShowProducts(page, req, res)       
->>>>>>> dao
 };
 
 //controler login github
 export const gitHubCallbackController = async (req, res) => {
     const user = req.user;
-<<<<<<< HEAD
-    await services.gitHubLogin(user, res);
-};
-
-//controler logout
-export const logoutController = async (req, res) => {
-    await services.logout('jwtCookieToken', res);   
-};
-=======
     await userService.gitHubLogin(user, res);
 }
 
 //controler logout
 export const logoutController = async (req, res) => {
     await userService.logout('jwtCookieToken', res);   
-    }
->>>>>>> dao
+}

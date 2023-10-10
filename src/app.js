@@ -6,7 +6,7 @@ import handlebars from 'express-handlebars';
 import cookieParser from 'cookie-parser';
 
 //import DB
-import MongoSingleton from './config/db.js';
+/* import MongoSingleton from './config/db.js'; */
 
 
 //import router
@@ -31,7 +31,7 @@ import session from 'express-session';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 
-
+ 
 
 //COMENTADOS POR FILE SYSTEM
 /* import {ProductManager} from '../src/managers/productManager.js';  */
@@ -99,17 +99,19 @@ app.use("/api/users", userRouter);
 
 
 const PORT = configEnv.port ;
-const httpServer = app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+    });
 
 
-const mongoInstance = async () => {
+/* const mongoInstance = async () => {
     try {
         await MongoSingleton.getInstance();
     } catch (error) {
         console.log(error);
     }
 };
-mongoInstance();
+mongoInstance(); */
 
 app.get('/', async (req, res) => {
     let allProducts = await productManager.getProducts();

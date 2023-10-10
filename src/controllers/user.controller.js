@@ -1,6 +1,6 @@
-import UserServices from '../services/user.services.js';
+import {userService} from '../services/factory.js';
 
-const services = new UserServices();
+/* const services = new userService(); */
 
 // controller registro por formulario
 export  const  registerController = async (req, res) => {
@@ -12,7 +12,7 @@ export  const  registerController = async (req, res) => {
         age,
         password 
     };
-    const result = await services.save(user);
+    const result = await userService.save(user);
     res.send({ status: "200", message: "Usuario creado con exito con ID: " + result.id });
 };
 
@@ -20,7 +20,7 @@ export  const  registerController = async (req, res) => {
 export const loginController = async (req, res) => {
     try {
         const { email, password } = req.body;
-        await services.login(email, password, res);    
+        await userService.login(email, password, res);    
         return res.status(200).send({message: "Usuario logueado con exito" });
     
     } catch (error) {
@@ -31,12 +31,17 @@ export const loginController = async (req, res) => {
 export const logAuthenticate = async (req, res) => {
     let page = parseInt(req.query.page);
         if (!page) page = 1;
+<<<<<<< HEAD
         await services.loginShowProducts(page, req, res)       
+=======
+        await userService.loginShowProducts(page, req, res)       
+>>>>>>> dao
 };
 
 //controler login github
 export const gitHubCallbackController = async (req, res) => {
     const user = req.user;
+<<<<<<< HEAD
     await services.gitHubLogin(user, res);
 };
 
@@ -44,3 +49,12 @@ export const gitHubCallbackController = async (req, res) => {
 export const logoutController = async (req, res) => {
     await services.logout('jwtCookieToken', res);   
 };
+=======
+    await userService.gitHubLogin(user, res);
+}
+
+//controler logout
+export const logoutController = async (req, res) => {
+    await userService.logout('jwtCookieToken', res);   
+    }
+>>>>>>> dao

@@ -1,11 +1,17 @@
 {{#each cartProducts.docs}}
-    <h1>Tu Carrito id:{{this.id}}</h1>
+    <div style="display: flex; flex-direction:row; justify-content:center; align-items:center; gap:10px; padding:10px">
+    <h1>Tu Carrito</h1>
+    <div style="display: flex; flex-direction:column; border:1px solid black; justify-content:center; align-items:center; gap:10px; width: auto; padding:10px">
+    <h2>Total a pagar: </h2>
+    <h3>Cantidad total de unidades en el carrito: </h3>
+    <button style="margin: 10px; padding:10px">Finalizar compra</button>
+    </div>
+</div>
 {{/each}}
 
 
 {{#if isValid}}
-
-<div>
+<div style="display: flex; flex-direction:column; justify-content:center; align-items:center; gap:10px">
 {{#each cartProducts.docs.0.products}}
     <div style="border: 1px black solid; border-radius: 20px; padding:10px; width:500px; margin:10px;">
         <h2>Title: {{{this.product.title}}}</h2>
@@ -14,10 +20,16 @@
         <h3>Quantity: {{this.quantity}}</h3>
         <div>{{this.product.thumbnail}}</div>
         <p>Stock: {{this.product.stock}}</p>
+        <div style="display: flex; flex-direction:row; border:1px solid black; justify-content:center; align-items:center; gap:10px">
+            <button> + </button>
+            <p>{{this.quantity}}</p>
+            <button> - </button>
+        </div>
     </div>
 {{/each}}
 </div>
-<br />
+<br/>
+
 
 <div>
     {{#if prevLink}}
@@ -35,6 +47,7 @@
         Siguiente -> </a>
     {{/if}}
 </div>
+
 {{else}}
 <h1>No hay productos para mostrar</h1>
 {{/if}}

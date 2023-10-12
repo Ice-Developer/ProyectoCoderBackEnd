@@ -4,7 +4,10 @@ import { createHash } from '../../../utils.js';
 import { isValidPassword } from '../../../utils.js';
 import { generateToken } from '../../../utils.js';
 import envConfig from '../../../config/env.config.js';
+import { CartModel } from "./models/cartModel.js";
+import CartServices from "./cart.services.js";
 
+const cartServices = new CartServices();
 
 const PORT = envConfig.port
 export default class UserService {
@@ -14,14 +17,26 @@ export default class UserService {
         return users.map(user => user.toObject());
     };
 
-    save = async (user) => {    
-    const exists = await userModel.findOne({ email:user.email });
+    save = async (data,) => {    
+    const exists = await userModel.findOne({ email:data.email });
     if (exists) {
-        return res.status(400).send({ status: 'error', message: 'usuario ya existe' })
+        return null;
     };
-        user.password = createHash(user.password);
-        let result = await userModel.create(user);
-        return result
+        data.password = createHash(data.password);
+        const {body} = {
+            "products": [],
+        }
+        let user = await userModel.create(data);
+        let cart = await CartModel.create(body);
+        if (cart && user) {
+            user.carts.push({ "cart": cart._id});
+            await user.save();
+            return user;
+        
+        } else {
+            return null;
+        }
+
     };
 
 
@@ -33,10 +48,13 @@ export default class UserService {
             if (!isValidPassword(exists, password)) {
                 return console.log("Los datos ingresados son incorrectos");
             }
+                let cartData = await cartServices.getCartById(exists.carts[0].cart._id)
             const tokenUser = {
                 name: `${exists.first_name} ${exists.last_name}`,
                 email: exists.email,
                 role: exists.role,
+                cart: exists.carts[0].cart._id,
+                cartLength: cartData.products.length
             };
             const accessToken = generateToken(tokenUser);
             //Cookies
@@ -57,6 +75,7 @@ export default class UserService {
             name: `${user.first_name} ${user.last_name}`,
             email: user.email,
             role: user.role,
+            cart: exists.carts[0].cart._id
         };
         const accessToken = generateToken(tokenUser)
         res.cookie('jwtCookieToken', accessToken, {
@@ -75,6 +94,12 @@ export default class UserService {
     
             return res.render('profile', {user: req.user,  result, prevLink, nextLink, isValid })            
     };
+
+    loginAdmin = async (req, res) => {
+        let isAdmin = true
+        return res.render('profile', {user: req.user, isAdmin})            
+    
+    }
 
 }
 

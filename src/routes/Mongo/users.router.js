@@ -1,9 +1,7 @@
 import { Router } from 'express';
 import {registerController, loginController, logoutController, gitHubCallbackController} from "../../controllers/user.controller.js";
-
 import passport from 'passport';
-/* import { isValidPassword } from '../../utils.js';
-import { generateToken } from '../../utils.js'; */
+
 
 
 const router = Router();
@@ -33,13 +31,13 @@ router.get("/fail-login", (req, res) => {
 
 
 router.get('/private/:role', auth, (req, res) =>{
-    res.send("Si estas viendo esto es porque pasaste la autorización a este recurso!");
+    res.render('admin')
 });
+    //res.send("Si estas viendo esto es porque pasaste la autorización a este recurso!");
 
 //autenticación
 function auth(req, res, next){
     const role = req.params.role;
-    console.log("el req.user del aut para ver si es admin es: ", role);
     if (role === "admin") {
         return next();
     } else{

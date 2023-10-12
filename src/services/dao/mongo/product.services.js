@@ -33,6 +33,8 @@ export default class ProductService {
     };
 
     update = async (id, product) => {
+        console.log("el prod en service: " );
+        console.log(product);
         const response = await ProductModel.updateOne(id, product);
         if (response) {
             return response;

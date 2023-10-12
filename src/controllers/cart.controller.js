@@ -6,7 +6,9 @@ import {cartService} from "../services/factory.js";
 //controller create cart
 export const creatNewCart = async (req, res)=>{
     try {
-        const {body} = req;
+        const {body} = {
+            "products": [],
+        }
     const result = await cartService.createCart(body);
     
     if (cart) {

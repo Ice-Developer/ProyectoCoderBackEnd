@@ -5,19 +5,19 @@ import { createProduct, getProducts, getProdById, updateProdById, deleteProdById
 const router = express.Router();
 
 //Create Product
-router.post('/', createProduct );
+router.post('/createOne', createProduct );
 
 //Get all with filters
 router.get('/', getProducts);
 
 //Get product by id
-router.get('/:pid', getProdById );
+router.get('/findOne/:pid', getProdById );
 
 //Update product by id
-router.put('/:pid', updateProdById );
+router.put('/updateOne/:pid', updateProdById );
 
 //Delete product by id
-router.delete('/:pid', deleteProdById );
+router.delete('/deleteOne/:pid', deleteProdById );
 
 
 export default router;

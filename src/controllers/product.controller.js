@@ -38,6 +38,7 @@ export const getProdById = async (req, res) => {
 export const updateProdById = async (req, res) => {
     const pid = req.params.pid;
     const { body } = req;
+        console.log(body);
     try {
         const response = await productService.update({ _id: pid }, { ...body });
         res.send({ status: 'Success', payload: response });

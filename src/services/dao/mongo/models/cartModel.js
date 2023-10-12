@@ -4,7 +4,7 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 const colleccionName = 'carts';
 
 const Schema = new mongoose.Schema({
-    "products": {
+    products: {
         type: [
             {
                 product:{

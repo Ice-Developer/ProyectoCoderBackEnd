@@ -12,7 +12,7 @@ export  const  registerController = async (req, res) => {
         age,
         password 
     };
-    const result = await userService.save(user);
+    const result = await userService.save(user, res);
     res.send({ status: "200", message: "Usuario creado con exito con ID: " + result.id });
 };
 
@@ -30,8 +30,12 @@ export const loginController = async (req, res) => {
 
 export const logAuthenticate = async (req, res) => {
     let page = parseInt(req.query.page);
+    if(req.user.role === 'admin'){
+        await userService.loginAdmin(req, res)
+    }else{
         if (!page) page = 1;
-        await userService.loginShowProducts(page, req, res)       
+        await userService.loginShowProducts(page, req, res)
+    }
 };
 
 //controler login github

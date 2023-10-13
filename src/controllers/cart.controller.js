@@ -1,7 +1,6 @@
 import cart from "../services/dao/filesystem/models/cartModel.js";
 import {cartService} from "../services/factory.js";
 
-/* const services = new cartService(); */
 
 //controller create cart
 export const creatNewCart = async (req, res)=>{
@@ -21,7 +20,6 @@ export const creatNewCart = async (req, res)=>{
     } 
 };
 
-
 //controller get cart by id
 export const searchCart = async (req, res)=>{
     const cid = req.params.cid;
@@ -39,10 +37,10 @@ export const searchCart = async (req, res)=>{
     } 
 };
 
+//Controller add product to cart
 export const putProductToCart = async (req, res) => {
     const cid = req.params.cid;
-    const { body } = req;
-    const pid = body.id;
+    const pid = req.params.pid;
     try {
         const cart = await cartService.prodInCart({_id:cid},{_id:pid})
         if (cart) {
@@ -56,6 +54,7 @@ export const putProductToCart = async (req, res) => {
     } 
 };
 
+//controller delete product from cart
 export const deleteProductFromCart = async (req, res) =>{
     const cid = req.params.cid;
     const pid = req.params.pid;
@@ -72,7 +71,24 @@ export const deleteProductFromCart = async (req, res) =>{
     }
 };
 
+//controller down quantity of product in cart
+export const downQuantity = async (req, res) =>{
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    try {
+        const cart = await cartService.reduceProdQuantity({ _id: cid }, { _id: pid });
+        if (cart) {
+            res.send({ status: 'Success', payload: cart });
+        } else {
+            res.status(404).json({ error: 'Carrito o producto no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al buscar el carrito o producto:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+};
 
+//controller clean cart
 export const cleanCart = async (req, res) => {
     const cid = req.params.cid;
     try {
@@ -87,4 +103,31 @@ export const cleanCart = async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
 };
+
+//controller render cart
+export const renderCart = async (req, res) => {
+    let cid = req.params.cid;
+    let page = parseInt(req.query.page);
+    if (!page) page = 1;
+
+    try {
+        const cartProducts = await cartService.cartRender({_id : cid}, page);
+        if (cartProducts) {
+            let prevLink = cartProducts.hasPrevPage ? `http://localhost:${PORT}/carts?page=${cartProducts.prevPage}` : '';
+            let nextLink = cartProducts.hasNextPage ? `http://localhost:${PORT}/carts?page=${cartProducts.nextPage}` : '';
+            let isValid = !(cartProducts.page <= 0 || cartProducts.page > cartProducts.totalPages)
+            res.render('carts', { cartProducts, prevLink, nextLink, isValid })
+            }
+        else {
+            res.status(404).json({ error: 'Carrito no encontrado' });
+        }
+    }catch (error) {
+        console.error('Error al buscar el carrito :', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+        
+    }
+    
+
+
+}
 

@@ -12,6 +12,7 @@ import cartRoutes from './routes/Mongo/cart.router.js';
 import usersViewRouter from './routes/Mongo/users.views.router.js';
 import userRouter from './routes/Mongo/users.router.js'
 import views from './routes/Mongo/view.router.js';
+import ticketRouter from './routes/Mongo/ticket.router.js';
 
 //import managers
 /* import dotenv from 'dotenv'; */
@@ -65,6 +66,7 @@ app.use("/products", views);
 app.use("/carts", views);
 app.use("/users", usersViewRouter);
 app.use("/api/users", userRouter);
+app.use("/api/ticket", ticketRouter);
 
 
 const PORT = configEnv.port ;

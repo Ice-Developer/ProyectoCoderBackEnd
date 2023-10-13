@@ -17,7 +17,7 @@ export default class UserService {
         return users.map(user => user.toObject());
     };
 
-    save = async (data,) => {    
+    save = async (data) => {    
     const exists = await userModel.findOne({ email:data.email });
     if (exists) {
         return null;

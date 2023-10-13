@@ -33,7 +33,6 @@ router.get("/fail-login", (req, res) => {
 router.get('/private/:role', auth, (req, res) =>{
     res.render('admin')
 });
-    //res.send("Si estas viendo esto es porque pasaste la autorización a este recurso!");
 
 //autenticación
 function auth(req, res, next){

@@ -20,6 +20,7 @@ export default class CartServices {
             }
     };
 
+    //services add product to cart
     prodInCart= async (cid, pid)=> {
         const cart = await CartModel.findOne(cid);
         const product = await ProductModel.findOne(pid); 
@@ -36,7 +37,25 @@ export default class CartServices {
         }
     };
 
+    //services delete product in cart
     deleteProdInCart = async (cid, pid)=> {
+        const cart = await CartModel.findOne(cid );
+        const product = await ProductModel.findOne(pid); 
+        
+        if (cart && product) {
+            const existingProduct = cart.products.find(p => p.product._id.toString() === product._id.toString());
+            if (existingProduct) {
+                cart.products.splice(cart.products.indexOf(existingProduct), 1);
+            }
+            await cart.save();
+            return cart;
+        } else {
+            return null;
+        }
+};
+
+    //services reduce product in cart
+    reduceProdQuantity = async (cid, pid)=> {
         const cart = await CartModel.findOne(cid );
         const product = await ProductModel.findOne(pid); 
         
@@ -52,7 +71,9 @@ export default class CartServices {
         } else {
             return null;
         }
-};
+    };
+
+    //services delete all products in cart
     deleteAll = async (cid)=> {
         const cart = await CartModel.findOne(cid);     
         if (cart) {
@@ -61,6 +82,16 @@ export default class CartServices {
             return cart;
         } else {
             return null;
+        }
+    };
+
+    cartRender = async (cid, page) => {
+        const cartProducts= await CartModel.paginate({_id : cid},{page, lean: true, populate: {path : 'products.product'}  })
+
+        if (!cartProducts) {
+            return res.status(404).send('Carrito no encontrado');
+        }else {
+            return cartProducts;
         }
     };
 

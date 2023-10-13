@@ -16,21 +16,5 @@ router.get('/', async (req, res) => {
         res.render('products', { resultProd, prevLink, nextLink, isValid })
 });
 
-router.get('/:cid', async (req, res) => {
-        let cid = req.params.cid;
-        let page = parseInt(req.query.page);
-        if (!page) page = 1;
-
-        const cartProducts= await CartModel.paginate({_id : cid},{page, lean: true, populate: {path : 'products.product'}  })
-
-        if (!cartProducts) {
-                return res.status(404).send('Carrito no encontrado');
-        }
-
-        let prevLink = cartProducts.hasPrevPage ? `http://localhost:${PORT}/carts?page=${cartProducts.prevPage}` : '';
-        let nextLink = cartProducts.hasNextPage ? `http://localhost:${PORT}/carts?page=${cartProducts.nextPage}` : '';
-        let isValid = !(cartProducts.page <= 0 || cartProducts.page > cartProducts.totalPages)
-        res.render('carts', { cartProducts, prevLink, nextLink, isValid })
-});
 
 export default router;

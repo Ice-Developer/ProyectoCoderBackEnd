@@ -4,10 +4,10 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 const colleccionName = 'tickets';
 
 const Schema = new mongoose.Schema({  
-        userID: {
+/*         userEmail: {
             type: String,
             required: true
-        },
+        }, */
         amount:{
             type: Number,
             required: true

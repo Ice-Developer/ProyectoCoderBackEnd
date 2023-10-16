@@ -22,12 +22,16 @@ export default class UserService {
     if (exists) {
         return null;
     };
-        data.password = createHash(data.password);
-        const {body} = {
-            "products": [],
-        }
+    try {
+        data.password = createHash(data.password); 
         let user = await userModel.create(data);
-        let cart = await CartModel.create(body);
+        const userId = user._id.toString();
+        const  body  = {
+            userId,
+            products: [],
+        }
+        let cart = await cartServices.createCart(body);
+
         if (cart && user) {
             user.carts.push({ "cart": cart._id});
             await user.save();
@@ -36,6 +40,9 @@ export default class UserService {
         } else {
             return null;
         }
+    } catch (error) {
+        throw new Error("Error en la creación del usuario: " + error.message);    
+    }
 
     };
 

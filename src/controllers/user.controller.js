@@ -13,7 +13,7 @@ export  const  registerController = async (req, res) => {
         password 
     };
     const result = await userService.save(user, res);
-    res.send({ status: "200", message: "Usuario creado con exito con ID: " + result.id });
+    res.send({ status: "200", message: "Usuario creado con exito con ID: " + result.id});
 };
 
 //controler login

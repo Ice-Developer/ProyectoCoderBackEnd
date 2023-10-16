@@ -4,12 +4,15 @@ import {cartService} from "../services/factory.js";
 
 //controller create cart
 export const creatNewCart = async (req, res)=>{
+    const userId = req.body.userId;
     try {
-        const {body} = {
-            "products": [],
-        }
-    const result = await cartService.createCart(body);
+        const body = {
+            userId,
+            products: [],
+        };
+        const result = await cartService.createCart(body);
     
+
     if (cart) {
         res.send({ status: "200", message: "Carrito creado con exito con ID: " + result.id , payload: result})
     }

@@ -1,9 +1,11 @@
 {{#each cartProducts.docs}}
     <div style="display: flex; flex-direction:row; justify-content:center; align-items:center; gap:10px; padding:10px">
     <h1 >Tu Carrito</h1>
+    <button id="volver" style="background-color: royalblue;color:aliceblue; margin: 10px; padding:10px">Volver</button>
     <div style="display: flex; flex-direction:column; border:1px solid black; justify-content:center; align-items:center; gap:10px; width: auto; padding:10px">
-    <h2>Total a pagar: </h2>
-    <h3>Cantidad total de unidades en el carrito: </h3>
+    <h2 id="total"> </h2>
+    <h3 id="cantArt"></h3>
+    <h3 id="cantProd">Cantidad de productos: </h3>
     <button style="margin: 10px; padding:10px" id="finalizar" value={{this._id}}>Finalizar compra</button>
     </div>
 </div>

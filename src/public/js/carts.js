@@ -120,12 +120,17 @@ async function crearTicket() {
             const { payload } = result;
             if (payload) {
                 alert(`Ticket creado con éxito con el codigo ${payload._id}`);
-                location.reload();
+                window.location.replace(`/api/ticket/${payload._id}`)
             }
         } else {
-            console.error('Error al crear el ticket.');
+            alert("No se pueden crear el ticket porque el producto seleccionado no posee stock suficiente.");
+
         }
     } catch (error) {
-        console.error('Error al realizar la solicitud:', error);
+        if (error.message === "No hay productos con stock suficiente para crear el ticket.") {
+            alert("No se pueden crear tickets porque no hay productos con stock suficiente.!!!!!");
+        } else {
+            console.error('Error al realizar la solicitud:', error);
+        }
     }
 }

@@ -69,6 +69,11 @@ export default class TicketServices {
             }
         }
 
+        if (productsWithStock.length === 0) {
+            // El array está vacío, no se puede crear el ticket
+            return null;
+        }
+
         //obtengo el total
         const amount = await sumarPrecio(productsWithStock);
 
@@ -81,5 +86,17 @@ export default class TicketServices {
         
         const ticket = await TicketModel.create(ticketData);
         return ticket;
+    };
+
+    getTicket = async (id) => {
+        const ticket = await TicketModel.paginate({_id : id},{lean: true, populate: {path : 'products.product'}  });
+        if (ticket) {
+            return ticket;
+        }else{
+            return null;
+        }
     }
 }
+
+    
+        

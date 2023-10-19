@@ -26,18 +26,27 @@ const Schema = new mongoose.Schema({
                     },
                     quantity: {
                         type: Number,
-                        default: 1
                     },
                 }
             ],
             default:[]
-        }  
+        },
+        productsWithOutStock: {
+            type: [
+                {
+                    product:{
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "products"
+                    },
+                    quantity: {
+                        type: Number,
+                    },
+                }
+            ],
+            default:[]
+        } 
     }, 
 {timestamps: true},
 )
-Schema.pre('findOne', function() {	
-    this.populate('products.product');
-})
 
-Schema.plugin(mongoosePaginate)
 export const  TicketModel  = mongoose.model( colleccionName, Schema);

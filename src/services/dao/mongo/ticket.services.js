@@ -50,11 +50,13 @@ export default class TicketServices {
 
         //array de datos
         const productsWithStock = [];
+        const productsWithOutStock = [];
 
         for (let i = 0; i < cart.products.length; i++) {
             try {
                 if (cart.products[i].product.stock < cart.products[i].quantity) {
                     console.log(`No hay stock suficiente para el producto id: ${cart.products[i].product._id}, el producto queda en el carrito de compras hasta que haya stock disponible`);
+                    productsWithOutStock.push(cart.products[i]);
                 } else {
                     productsWithStock.push(cart.products[i]);
                     await ProductModel.updateOne(
@@ -81,7 +83,8 @@ export default class TicketServices {
             code : code,
             purchaser : user.email,
             amount : amount,
-            products: productsWithStock
+            products: productsWithStock,
+            productsWithOutStock: productsWithOutStock,
         };
         
         const ticket = await TicketModel.create(ticketData);
@@ -89,7 +92,7 @@ export default class TicketServices {
     };
 
     getTicket = async (id) => {
-        const ticket = await TicketModel.paginate({_id : id},{lean: true, populate: {path : 'products.product'}  });
+        const ticket = await TicketModel.findOne({_id: id}).populate('products.product').populate('productsWithOutStock.product').lean();
         if (ticket) {
             return ticket;
         }else{

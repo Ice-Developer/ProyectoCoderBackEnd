@@ -23,10 +23,12 @@ export const createTicket = async(req, res)=>{
 export const renderTicket = async(req, res)=>{
     const tid = req.params.tid;
     try {
-        const ticket = await ticketService.getTicket(tid);
+        const ticket =  await ticketService.getTicket(tid);
         if(ticket){
-            let isValid = !(ticket.page <= 0 || ticket.page > ticket.totalPages)
-            res.render('ticket', {ticket, isValid})
+            console.log(ticket);
+            res.render('ticket', {ticket:ticket})
+/*             res.send({status: "200", message: "Ticket encontrado con exito", payload: {ticket}}) */
+
         } else {
             res.status(404).json({ error: 'Ticket no encontrado' });
         }

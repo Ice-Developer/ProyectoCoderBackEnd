@@ -4,7 +4,7 @@ import { createHash } from '../../../utils.js';
 import { isValidPassword } from '../../../utils.js';
 import { generateToken } from '../../../utils.js';
 import envConfig from '../../../config/env.config.js';
-import { CartModel } from "./models/cartModel.js";
+/* import { CartModel } from "../models/cartModel.js"; */
 import CartServices from "./cart.services.js";
 
 const cartServices = new CartServices();

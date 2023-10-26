@@ -13,6 +13,7 @@ import usersViewRouter from './routes/Mongo/users.views.router.js';
 import userRouter from './routes/Mongo/users.router.js'
 import views from './routes/Mongo/view.router.js';
 import ticketRouter from './routes/Mongo/ticket.router.js';
+import mockProd from './routes/Mock/mock.router.js';
 
 //import managers
 /* import dotenv from 'dotenv'; */
@@ -67,6 +68,7 @@ app.use("/carts", views);
 app.use("/users", usersViewRouter);
 app.use("/api/users", userRouter);
 app.use("/api/ticket", ticketRouter);
+app.use("/mockingproducts", mockProd);
 
 
 const PORT = configEnv.port ;

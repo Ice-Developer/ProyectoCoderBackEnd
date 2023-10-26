@@ -1,11 +1,34 @@
 import { productService } from "../services/factory.js";
+import CustomError from "../services/errors/CustomError.js";
+import EErrors from "../services/errors/errors.enum.js";
+import {generateProductErrorInfo} from "../services/errors/messages/product-creation-error.message.js";
 
 /* const services = new productService(); */
 
 export const createProduct = async (req, res) => {
-    const { body } = req;
+    /* const { body } = req; */
     try {
-        const response = await productService.createProduct(body);
+        const {title, description, price, status, thumbnail, code, stock, available} = req.body;
+        if (!title || !description || !price || !status || !thumbnail || !code || !stock || !available) {
+            CustomError.createError({
+                name: 'Missing Data',
+                cause: generateProductErrorInfo(),
+                message: 'Missing Data',
+                code: EErrors.INVALID_TYPE_ERROR
+                
+            });
+        }
+        const data = {
+            title,
+            description,
+            price,
+            status,
+            thumbnail,
+            code,
+            stock,
+            available
+        }
+        const response = await productService.createProduct(data);
         res.send({ status: 'Success', payload: response })
     } catch (error) {
         res.status(400).json(error.message);

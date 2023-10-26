@@ -1,8 +1,10 @@
-import {fileURLToPath} from 'url'
-import { dirname } from 'path'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import envCongif from './config/env.config.js'
+import {fileURLToPath} from 'url';
+import { dirname, parse } from 'path';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import envCongif from './config/env.config.js';
+import {fakerES as faker} from '@faker-js/faker';
+
 // Encriptacion
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 export const isValidPassword = (user, password) => bcrypt.compareSync(password, user.password);
@@ -14,6 +16,7 @@ export const __dirname = dirname(__filename);
 
 //Configuracion de Multer para subir archivos
 import multer from 'multer'
+import { title } from 'process';
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, `${__dirname}/public/img`)},
@@ -53,5 +56,22 @@ export const authToken = (req, res, next) => {
         req.user = credentials.user;
         next();
     });
-};;
+};
+
+
+//creamos base de productos con Faker
+export const generateProducts = () => {
+    return{
+        _id: faker.database.mongodbObjectId(),
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        code: faker.string.alpha(5),
+        price: faker.commerce.price(),
+        thumbnail: faker.image.avatar(),
+        stock: faker.number.int(500),
+        available: faker.datatype.boolean(),
+    }
+};
+    
+
 

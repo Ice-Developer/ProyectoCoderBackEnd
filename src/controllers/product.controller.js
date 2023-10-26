@@ -8,11 +8,11 @@ import {generateProductErrorInfo} from "../services/errors/messages/product-crea
 export const createProduct = async (req, res) => {
     /* const { body } = req; */
     try {
-        const {title, description, price, status, thumbnail, code, stock, available} = req.body;
-        if (!title || !description || !price || !status || !thumbnail || !code || !stock || !available) {
+        const {title, description, price, thumbnail, code, stock, available} = req.body;
+        if (!title || !description || !price || !thumbnail || !code || !stock || !available) {
             CustomError.createError({
                 name: 'Missing Data',
-                cause: generateProductErrorInfo(),
+                cause: generateProductErrorInfo({title, description, price, thumbnail, code, stock, available}),
                 message: 'Missing Data',
                 code: EErrors.INVALID_TYPE_ERROR
                 
@@ -22,7 +22,6 @@ export const createProduct = async (req, res) => {
             title,
             description,
             price,
-            status,
             thumbnail,
             code,
             stock,
@@ -30,8 +29,10 @@ export const createProduct = async (req, res) => {
         }
         const response = await productService.createProduct(data);
         res.send({ status: 'Success', payload: response })
+
     } catch (error) {
-        res.status(400).json(error.message);
+        console.error(error);
+        res.status(500).send({error: error.code, message: error.message});
     }
 };
 
@@ -60,13 +61,31 @@ export const getProdById = async (req, res) => {
 
 export const updateProdById = async (req, res) => {
     const pid = req.params.pid;
-    const { body } = req;
-        console.log(body);
     try {
-        const response = await productService.update({ _id: pid }, { ...body });
+        const {title, description, price, thumbnail, code, stock, available} = req.body;
+        if (!title || !description || !price || !thumbnail || !code || !stock || !available) {
+            CustomError.createError({
+                name: 'Missing Data',
+                cause: generateProductErrorInfo({title, description, price, thumbnail, code, stock, available}),
+                message: 'Missing Data',
+                code: EErrors.INVALID_TYPE_ERROR
+                
+            });
+        }
+        const data = {
+            title,
+            description,
+            price,
+            thumbnail,
+            code,
+            stock,
+            available
+        }
+        const response = await productService.update({ _id: pid }, data);
         res.send({ status: 'Success', payload: response });
     } catch (error) {
-        res.status(400).json(error.message);
+        console.error(error);
+        res.status(500).send({error: error.code, message: error.message});
     }
 };
 

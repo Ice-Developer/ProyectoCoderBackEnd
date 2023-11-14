@@ -15,6 +15,7 @@ form.addEventListener('submit', e => {
             
         }
     }).then(result => {
+        console.log(result.status);
         if (result.status === 200) {
             result.json()
             .then(json => { 

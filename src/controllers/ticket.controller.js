@@ -15,7 +15,7 @@ export const createTicket = async(req, res)=>{
         }
         
         }catch (error) {
-            console.error('Error al crear el ticket:', error);
+            req.logger.error("Error al crear el ticket del CartId: " + data);
             res.status(500).json({ error: 'Error interno del servidor', details: error.message }); 
         }
     }; 
@@ -25,15 +25,14 @@ export const renderTicket = async(req, res)=>{
     try {
         const ticket =  await ticketService.getTicket(tid);
         if(ticket){
-            console.log(ticket);
             res.render('ticket', {ticket:ticket})
-/*             res.send({status: "200", message: "Ticket encontrado con exito", payload: {ticket}}) */
-
         } else {
+            req.logger.error("Error al obtener el ticket con ID: " + tid);
             res.status(404).json({ error: 'Ticket no encontrado' });
         }
     }catch (error) {
+        req.logger.error("Error al obtener el ticket con ID: " + tid);
         res.status(500).json({ error: 'Error interno del servidor', details: error.message });
-    
     }
+
 }

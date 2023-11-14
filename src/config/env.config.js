@@ -12,6 +12,7 @@ program
     program.parse();
 
 const enviroment = program.opts().mode
+
 console.log("Modo Opt: ", program.opts().mode);
 console.log("Persistencia Opt: ", program.opts().persist);
 
@@ -22,6 +23,7 @@ dotenv.config({
 
 
 export default {
+    enviroment: enviroment,
     port: process.env.PORT,
     mongoUrl: process.env.MONGO_URL,
     persistence : program.opts().persist,

@@ -4,6 +4,7 @@ import GitHubStrategy from "passport-github2";
 import jwtStrategy from "passport-jwt";
 import userModel from "../services/dao/mongo/models/userModel.js";
 import {PRIVATE_KEY } from "../utils.js";
+import { cartService } from "../services/factory.js";
 
 
 //Declaramos la estrategia a utilizar
@@ -45,8 +46,21 @@ const initializePassport = () => {
                     password: "",
                     logedBy: "GitHub"
                     }
-                const result = await userModel.create(newUser);
+                let result = await userModel.create(newUser);
+                
+                const userId = result._id.toString()
+                const body = {
+                    userId,
+                    products: [],
+                    }
+                let cart = await cartService.createCart(body)
+                
+                result.carts.push({ "cart": cart._id});
+                await result.save();
                 return done(null, result);
+                
+                
+                
             }else{
                 return done(null, user);
             }

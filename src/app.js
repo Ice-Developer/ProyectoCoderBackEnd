@@ -28,11 +28,18 @@ import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 
 
+//import logger Base
+import { addLogger } from './config/logger.js';
+
+
 /* dotenv.config(); */
 const app = express();
 
 //Cookies
 app.use(cookieParser("CoderS3cr3tC0d3"));
+
+//Middelwares
+app.use(addLogger);
 
 //Middlewares
 app.use(express.json());

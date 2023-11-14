@@ -41,21 +41,23 @@ export default class UserService {
             return null;
         }
     } catch (error) {
-        throw new Error("Error en la creación del usuario: " + error.message);    
+        throw new Error("Error en la creación del usuario: " + error.message); 
+        
     }
 
     };
 
 
     login = async (email, password, res) => {
+
+        try {
             const exists = await userModel.findOne({ email });
-            if (!exists) {
-                return console.log("Usuario no encontrado");
-                }
-            if (!isValidPassword(exists, password)) {
-                return console.log("Los datos ingresados son incorrectos");
+            const isValid = isValidPassword(exists, password);
+
+            if(!exists || !isValid){
+                return null
             }
-                let cartData = await cartServices.getCartById(exists.carts[0].cart._id)
+            let cartData = await cartServices.getCartById(exists.carts[0].cart._id)
             const tokenUser = {
                 name: `${exists.first_name} ${exists.last_name}`,
                 email: exists.email,
@@ -69,6 +71,11 @@ export default class UserService {
                 maxAge: 60000,  
                 httpOnly: true, // no expone la cookie cuando esta en true
             })
+            return true
+
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
     };
 
 
@@ -78,11 +85,13 @@ export default class UserService {
     };
     
     gitHubLogin = async (user, res) => {
+        let cartData = await cartServices.getCartById(user.carts[0].cart._id)
         const tokenUser = {
-            name: `${user.first_name} ${user.last_name}`,
+            name: `${user.first_name}`,
             email: user.email,
             role: user.role,
-            cart: exists.carts[0].cart._id
+            cart: user.carts[0].cart._id,
+            cartLength: cartData.products.length
         };
         const accessToken = generateToken(tokenUser)
         res.cookie('jwtCookieToken', accessToken, {

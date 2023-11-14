@@ -1,6 +1,5 @@
 
 export const generateProductErrorInfo = (product) =>{
-    console.log(product);
     return `Uno o mas de las propiedades fueron enviadas incompletas o no son validas.
         Las propiedades requeridas son:
         - title: type String, recibido: ${product.title}

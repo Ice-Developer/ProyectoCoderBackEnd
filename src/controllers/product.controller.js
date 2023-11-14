@@ -31,7 +31,7 @@ export const createProduct = async (req, res) => {
         res.send({ status: 'Success', payload: response })
 
     } catch (error) {
-        console.error(error);
+        req.logger.error("Error al crear un producto");
         res.status(500).send({error: error.code, message: error.message});
     }
 };
@@ -45,6 +45,7 @@ export const getProducts = async (req, res) => {
         const response = await productService.getAllProducts(limit, page, sort, filter);
         res.send({ status: 'Success', payload: response });
     } catch (error) {
+        req.logger.error("Error al obtener todos los productos");
         res.status(400).json(error.message);
     }
 };
@@ -55,6 +56,7 @@ export const getProdById = async (req, res) => {
         const response = await productService.getById({ _id: pid });
         res.send({ status: 'Success', payload: response });
     } catch (error) {
+        req.logger.error("Error al obtener el producto con id: " + pid);
         res.status(400).json(error.message);
     }
 };
@@ -84,7 +86,7 @@ export const updateProdById = async (req, res) => {
         const response = await productService.update({ _id: pid }, data);
         res.send({ status: 'Success', payload: response });
     } catch (error) {
-        console.error(error);
+        req.logger.error("Error al actualizar el producto con id: " + pid);
         res.status(500).send({error: error.code, message: error.message});
     }
 };
@@ -95,6 +97,7 @@ export const deleteProdById = async (req, res) => {
         const response = await productService.delete({ _id: pid });
         res.send({ status: 'Success', payload: response });
     } catch (error) {
+        req.logger.error("Error al eliminar el producto con id: " + pid);
         res.status(400).json(error.message);
     }
 };

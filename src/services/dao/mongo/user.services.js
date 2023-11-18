@@ -18,11 +18,11 @@ export default class UserService {
     };
 
     save = async (data) => {    
-    const exists = await userModel.findOne({ email:data.email });
-    if (exists) {
-        return null;
-    };
     try {
+        const exists = await userModel.findOne({ email:data.email });
+        if (exists) {
+            return null;
+        };
         data.password = createHash(data.password); 
         let user = await userModel.create(data);
         const userId = user._id.toString();

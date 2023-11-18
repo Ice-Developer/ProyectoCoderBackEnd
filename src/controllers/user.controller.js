@@ -13,8 +13,13 @@ export  const  registerController = async (req, res) => {
         password 
     };
     const result = await userService.save(user, res);
-    res.send({ status: "200", message: "Usuario creado con exito con ID: " + result.id});
-    req.logger.warn ("mensaje desde controller")
+    if (result) {
+        req.logger.info("Usuario logueado con exito")
+        return res.send({ status: "200", message: "Usuario creado con exito con ID: " + result.id});
+    }else{
+        req.logger.error("Se intenta crear un usuario con email ya registrado en DB")
+        return res.status(401).send({ message: "Email ya registrado en la DB" });
+    }
 };
 
 //controler login

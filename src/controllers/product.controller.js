@@ -28,11 +28,11 @@ export const createProduct = async (req, res) => {
             available
         }
         const response = await productService.createProduct(data);
-        res.send({ status: 'Success', payload: response })
+        res.stastus(200).send({ status: 'Success', payload: response })
 
     } catch (error) {
         req.logger.error("Error al crear un producto");
-        res.status(500).send({error: error.code, message: error.message});
+        res.status(400).send({error: error.code, message: error.message});
     }
 };
 

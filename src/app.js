@@ -27,13 +27,29 @@ import session from 'express-session';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 
+//import Swagger
+import swaggerUI from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 
 //import logger Base
 import { addLogger } from './config/logger.js';
 
-
 /* dotenv.config(); */
 const app = express();
+
+//config Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info: {
+            title: "Ecommerce API, proyecto Backend CoderHouse",
+            description: "Doc para uso de Swagger"
+        }
+    },
+    apis: ["./src/docs/**/*.yml"]
+};
+const specs = swaggerJsDoc(swaggerOptions);
+
 
 //Cookies
 app.use(cookieParser("CoderS3cr3tC0d3"));
@@ -76,6 +92,8 @@ app.use("/users", usersViewRouter);
 app.use("/api/users", userRouter);
 app.use("/api/ticket", ticketRouter);
 app.use("/mockingproducts", mockProd);
+//endpoint Swagger
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 
 const PORT = configEnv.port ;

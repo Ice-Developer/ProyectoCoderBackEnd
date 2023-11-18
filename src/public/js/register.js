@@ -20,6 +20,8 @@ form.addEventListener('submit', e => {
         if (result.status === 200) {
             alert("Usuario creado con exito");
             window.location.replace('/users/login')
+        }else if (result.status === 401) {
+            alert("El Email ya se encuentra registrado");
         }
     })
 })

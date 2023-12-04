@@ -95,4 +95,14 @@ export default class CartServices {
         }
     };
 
+    cartDelete = async (cid) => {
+        const cart = await CartModel.deleteOne(cid);
+        if (!cart) {
+            return res.status(404).send('Carrito no encontrado');
+        } else {
+            return cart;
+        }
+
+    }
+
 }

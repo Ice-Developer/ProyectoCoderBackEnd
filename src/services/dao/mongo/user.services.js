@@ -6,6 +6,7 @@ import { generateToken } from '../../../utils.js';
 import envConfig from '../../../config/env.config.js';
 /* import { CartModel } from "../models/cartModel.js"; */
 import CartServices from "./cart.services.js";
+import e from "express";
 
 const cartServices = new CartServices();
 
@@ -49,15 +50,14 @@ export default class UserService {
 
 
     login = async (email, password, res) => {
-
+        console.log(email, password);
         try {
             const exists = await userModel.findOne({ email });
             const isValid = isValidPassword(exists, password);
-
-            if(!exists || !isValid){
+            if(!exists || !isValid){  
                 return null
-            }
-            let cartData = await cartServices.getCartById(exists.carts[0].cart._id)
+            }else{
+                let cartData = await cartServices.getCartById(exists.carts[0].cart._id)
             const tokenUser = {
                 name: `${exists.first_name} ${exists.last_name}`,
                 email: exists.email,
@@ -70,11 +70,11 @@ export default class UserService {
             res.cookie('jwtCookieToken', accessToken, {
                 maxAge: 60000,  
                 httpOnly: true, // no expone la cookie cuando esta en true
-            })
+            })  
             return true
-
+            }           
         } catch (error) {
-            res.status(500).send(error.message);
+            throw new Error("Error al validar usuario" + error.message);
         }
     };
 

@@ -6,7 +6,6 @@ import {generateProductErrorInfo} from "../services/errors/messages/product-crea
 /* const services = new productService(); */
 
 export const createProduct = async (req, res) => {
-    /* const { body } = req; */
     try {
         const {title, description, price, thumbnail, code, stock, available} = req.body;
         if (!title || !description || !price || !thumbnail || !code || !stock || !available) {
@@ -28,7 +27,7 @@ export const createProduct = async (req, res) => {
             available
         }
         const response = await productService.createProduct(data);
-        res.stastus(200).send({ status: 'Success', payload: response })
+        res.status(200).send({ status: 'Success', payload: response })
 
     } catch (error) {
         req.logger.error("Error al crear un producto");
@@ -95,7 +94,7 @@ export const deleteProdById = async (req, res) => {
     const pid = req.params.pid;
     try {
         const response = await productService.delete({ _id: pid });
-        res.send({ status: 'Success', payload: response });
+        res.status(200).send({ status: 'Success', payload: response });
     } catch (error) {
         req.logger.error("Error al eliminar el producto con id: " + pid);
         res.status(400).json(error.message);

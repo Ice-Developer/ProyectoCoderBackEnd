@@ -1,5 +1,5 @@
 import express from 'express';
-import { creatNewCart, searchCart, putProductToCart, deleteProductFromCart, cleanCart, downQuantity, renderCart } from '../../controllers/cart.controller.js';
+import { creatNewCart, searchCart, putProductToCart, deleteProductFromCart, cleanCart, downQuantity, renderCart, deleteCart } from '../../controllers/cart.controller.js';
 import { createTicket } from '../../controllers/ticket.controller.js';
 
 const router = express.Router();
@@ -21,6 +21,9 @@ router.delete('/:cid/products/delete/:pid', deleteProductFromCart);
 
 //limipamos el carrito de compras
 router.put('/:cid/clean', cleanCart);
+
+//eliminamos el carrito de compras
+router.delete('/deleteCart/:cid', deleteCart);
 
 //renderizado de carrito de compras
 router.get('/:cid', renderCart)

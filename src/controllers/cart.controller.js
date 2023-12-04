@@ -47,7 +47,7 @@ export const putProductToCart = async (req, res) => {
     try {
         const cart = await cartService.prodInCart({_id:cid},{_id:pid})
         if (cart) {
-            res.send({ status: 'Success', payload: cart });
+            res.status(200).send({ status: 'Success', payload: cart });
         } else {
             res.status(404).json({ error: 'Carrito o producto no encontrado' });
         }
@@ -64,7 +64,7 @@ export const deleteProductFromCart = async (req, res) =>{
     try {
         const cart = await cartService.deleteProdInCart({ _id: cid }, { _id: pid });
         if (cart) {
-            res.send({ status: 'Success', payload: cart });
+            res.status(200).send({ status: 'Success', payload: cart });
         } else {
             res.status(404).json({ error: 'Carrito o producto no encontrado' });
         }
@@ -129,8 +129,22 @@ export const renderCart = async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor', details: error.message });
         
     }
-    
+};
 
+//Eliminar cart
+export const deleteCart = async (req, res) => {
+    let cid = req.params.cid;
+    try {
+        const cart = await cartService.cartDelete({ _id: cid });
+        if (cart) {
+            res.status(200).send({ status: 'Success', payload: cart });
+        } else {
+            res.status(404).json({ error: 'Carrito no encontrado' });
+        }
+    } catch (error) {
+        req.logger.error('Error al buscar el carrito: ' + cid);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
 
-}
+};
 

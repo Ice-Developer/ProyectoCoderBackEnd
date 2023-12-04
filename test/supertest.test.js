@@ -116,9 +116,6 @@ describe("testing App", () => {
             expect(_body).to.be.an("object");      
         });
 
-        it("Debe reducir la cantidad de un producto en el carrito", async ()=>{
-        })
-
         it("Debe reducir la cantidad de un producto del carrito", async ()=>{
             const cartAdd = await requester.put(`/api/carts/${idCartCreado}/products/add/${idProd}`);
             const {statusCode, _body} = await requester.delete(`/api/carts/${idCartCreado}/products/reduce/${idProd}`);

@@ -1,18 +1,38 @@
 import { Router } from 'express';
-import {registerController, loginController, logoutController, gitHubCallbackController} from "../../controllers/user.controller.js";
+import {registerController, loginController, logoutController, gitHubCallbackController, getAllUsersController, updateUserController, findOneUserController, deleteUserController, getAllInactiveUsersController} from "../../controllers/user.controller.js";
 import passport from 'passport';
+
 
 
 
 const router = Router();
 
+
 //Registramos al usuario en la base de datos MongoDB
 router.post("/register", registerController );
 
+//Actualizamos un usuario en la base de datos MongoDB
+router.put('/update/:uid', updateUserController)
+
+//Actualizamos un usuario en la base de datos MongoDB
+router.get('/findOne/:uid', findOneUserController)
+
+//Eliminar un usuario de la base de datos MongoDB
+router.delete('/deleteOne/:uid', deleteUserController)
+
+//Obtenemos todos los usuarios de la base de datos MongoDB
+router.get('/allUsers', getAllUsersController )
+
+//Obtenemos todos los usuarios inactivos de la base de datos MongoDB
+router.get('/inactiveUsers', getAllInactiveUsersController )
+
+//Logueamos al usuario en la base de datos MongoDB
 router.post('/login', loginController)
 
+//Deslogueamos al usuario de la base de datos MongoDB
 router.get('/logout', logoutController)
 
+//Logueo con GitHUb
 router.get('/github', passport.authenticate('github', {scope: ['user:email']}))
 
 router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/github/error'}),gitHubCallbackController)
@@ -29,7 +49,7 @@ router.get("/fail-login", (req, res) => {
 })
 
 
-
+//Acceso a ruta privada
 router.get('/private/:role', auth, (req, res) =>{
     res.render('admin')
 });

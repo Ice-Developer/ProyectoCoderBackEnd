@@ -27,7 +27,17 @@ const schema = new mongoose.Schema({
             }
         ],
         default: [],
-    }
+    },
+    documents:{
+        type:[
+            {
+                name: String,
+                reference : String,
+            }
+        ]
+    },
+    
+    last_connection:String
 })
 
 schema.pre('findOne', function() {

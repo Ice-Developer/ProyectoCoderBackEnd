@@ -4,9 +4,10 @@ import { createHash } from '../../../utils.js';
 import { isValidPassword } from '../../../utils.js';
 import { generateToken } from '../../../utils.js';
 import envConfig from '../../../config/env.config.js';
-/* import { CartModel } from "../models/cartModel.js"; */
 import CartServices from "./cart.services.js";
-import e from "express";
+import UserDto from "../Dto/user.dto.js";
+import { Timestamp } from "mongodb";
+
 
 const cartServices = new CartServices();
 
@@ -15,42 +16,40 @@ export default class UserService {
 
     getAll = async () => {
         let users = await userModel.find();
-        return users.map(user => user.toObject());
+        let usersDto = users.map(user => new UserDto(user));
+        return usersDto;
     };
 
     save = async (data) => {    
-    try {
-        const exists = await userModel.findOne({ email:data.email });
-        if (exists) {
-            return null;
-        };
-        data.password = createHash(data.password); 
-        let user = await userModel.create(data);
-        const userId = user._id.toString();
-        const  body  = {
-            userId,
-            products: [],
-        }
-        let cart = await cartServices.createCart(body);
+        try {
+            const exists = await userModel.findOne({ email:data.email });
+            if (exists) {
+                return null;
+            };
+            data.password = createHash(data.password); 
+            let user = await userModel.create(data);
+            const userId = user._id.toString();
+            const  body  = {
+                userId,
+                products: [],
+            }
+            let cart = await cartServices.createCart(body);
 
-        if (cart && user) {
-            user.carts.push({ "cart": cart._id});
-            await user.save();
-            return user;
-        
-        } else {
-            return null;
+            if (cart && user) {
+                user.carts.push({ "cart": cart._id});
+                await user.save();
+                return user;
+            
+            } else {
+                return null;
+            }
+        } catch (error) {
+            throw new Error("Error en la creación del usuario: " + error.message);       
         }
-    } catch (error) {
-        throw new Error("Error en la creación del usuario: " + error.message); 
-        
-    }
-
     };
 
 
     login = async (email, password, res) => {
-        console.log(email, password);
         try {
             const exists = await userModel.findOne({ email });
             const isValid = isValidPassword(exists, password);
@@ -58,7 +57,8 @@ export default class UserService {
                 return null
             }else{
                 let cartData = await cartServices.getCartById(exists.carts[0].cart._id)
-            const tokenUser = {
+                let userUpdate = await userModel.updateOne({email: email}, {last_connection: new Date()})
+                const tokenUser = {
                 name: `${exists.first_name} ${exists.last_name}`,
                 email: exists.email,
                 role: exists.role,
@@ -114,20 +114,55 @@ export default class UserService {
     loginAdmin = async (req, res) => {
         let isAdmin = true
         return res.render('profile', {user: req.user, isAdmin})            
-    
+    };
+
+    updateUser = async (id, user) => {
+        let result = await userModel.updateOne(id, user);
+        if (result){
+            return result;
+        }
+        else{
+            return null
+        }
+    };
+
+    findById = async (id) => {
+        let result = await userModel.findOne(id );
+        return result;
+    };
+
+    deleteUser = async (id) => {
+        let result = await userModel.deleteOne(id);
+        if (result){
+            return result;
+        }
+        else{
+            return null
+        }
+    };
+
+    getAllInactive = async () => {
+        const fechaActual = new Date();
+        const users = await userModel.find();
+        const usersInactive = users.filter(user => {
+            const fechaUltimaConexion = new Date(user.last_connection);
+            const diff = fechaActual - fechaUltimaConexion;
+            const minutos = Math.floor(diff / (1000 * 60));
+            return minutos > 2880;
+        })
+        /* return usersInactive; */
+        const result = await userModel.deleteMany({_id: {$in: usersInactive.map(user => user._id)}});
+        if (result){
+            return result;
+        }
+        else{
+            return null
+        }
     }
 
 }
 
-    /*     findByUsername = async (userName) => {
-        let result = await userModel.findOne({ userName });
-        return result;
-    }; */
 
-/*     update = async (filter, value) => {
-        let result = await userModel.updateOne(filter, value);
-        return result;
-    }; */
 
 
 

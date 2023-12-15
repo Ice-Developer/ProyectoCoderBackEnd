@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
     role:{
         type: String,
         default: 'user',
-        enum : ['user', 'admin']
+        enum : ['user', 'admin', 'premium']
     },
     carts:{
         type:[
@@ -33,11 +33,13 @@ const schema = new mongoose.Schema({
             {
                 name: String,
                 reference : String,
-            }
+                status : Boolean
+            },
         ]
     },
     
-    last_connection:String
+    last_connection:String,
+    img_profile: String,
 })
 
 schema.pre('findOne', function() {

@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import {registerController, loginController, logoutController, gitHubCallbackController, getAllUsersController, updateUserController, findOneUserController, deleteUserController, getAllInactiveUsersController} from "../../controllers/user.controller.js";
+import {registerController, loginController, logoutController, gitHubCallbackController, getAllUsersController, updateUserController, findOneUserController, deleteUserController, imgProfileController,delAllInactiveUsersController} from "../../controllers/user.controller.js";
 import passport from 'passport';
-
+import { upProdImg, upProfileImg, upUserDocs } from '../../utils.js';
 
 
 
@@ -24,13 +24,18 @@ router.delete('/deleteOne/:uid', deleteUserController)
 router.get('/allUsers', getAllUsersController )
 
 //Obtenemos todos los usuarios inactivos de la base de datos MongoDB
-router.get('/inactiveUsers', getAllInactiveUsersController )
+router.delete('/inactiveUsers', delAllInactiveUsersController )
 
 //Logueamos al usuario en la base de datos MongoDB
 router.post('/login', loginController)
 
 //Deslogueamos al usuario de la base de datos MongoDB
 router.get('/logout', logoutController)
+
+//subir img de perfil
+router.post('/uploadAvatar/:user', upProfileImg.single('file'), imgProfileController)
+
+
 
 //Logueo con GitHUb
 router.get('/github', passport.authenticate('github', {scope: ['user:email']}))
@@ -53,6 +58,9 @@ router.get("/fail-login", (req, res) => {
 router.get('/private/:role', auth, (req, res) =>{
     res.render('admin')
 });
+
+//Acceso a ruta premium
+router.get('/premium/:uid', )
 
 //autenticación
 function auth(req, res, next){

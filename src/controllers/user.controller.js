@@ -27,8 +27,8 @@ export const getAllUsersController = async (req, res) => {
 };
 
 //Controller para obtener todos los usuarios inactivos
-export const getAllInactiveUsersController = async (req, res) => {
-    const data = await userService.getAllInactive();
+export const delAllInactiveUsersController = async (req, res) => {
+    const data = await userService.deleteAllInactive();
     res.send(data);
 }
 
@@ -115,6 +115,19 @@ export const loginController = async (req, res) => {
         }   
         
 };
+
+//controller subir img de perfil
+export const imgProfileController = async (req, res) => {
+    let email = req.params.user;
+    let path = "../profile/"+(req.file.filename)
+    
+    const user = await userService.uploadAvatar(email, path);
+    if (user) {
+        req.logger.info("Imagen de perfil subida con exito")
+        return res.status(200).send({ message: "Imagen de perfil subida con exito" }); 
+    }
+    req.logger.error("Error al subir la imagen de perfil")
+}
 
 export const logAuthenticate = async (req, res) => {
     let page = parseInt(req.query.page);

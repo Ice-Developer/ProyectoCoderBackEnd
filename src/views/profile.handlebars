@@ -3,6 +3,10 @@
     <h1 id={{user.role}} class="userRole">Tu perfil</h1>
     <h2>Nombre: {{user.name}}</h2>
     <h2>Email: {{user.email}}</h2>
+    {{#if user.img_profile}}
+         <img style="width: 100px;" src={{user.img_profile}} alt={{user.name}}>
+    {{/if}}
+   
     <div style="display: flex; justify-content:center; align-items: center; width:100%; gap:20px">
         <button style="padding: 10px 8px; border-radius: 20px; background-color:rgb(9, 62, 105); color:azure" id='logout'>Cerrar Sesion</button>
         <button style="padding: 10px 8px; border-radius: 20px; background-color:rgb(17, 228, 217); color:rgb(0, 0, 0)" id='accessAdmin'>Acceso Administrador</button>

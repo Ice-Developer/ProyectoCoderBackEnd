@@ -1,4 +1,5 @@
 const logout = document.getElementById('logout');
+const deleteAll = document.getElementById('deleteAll');
 
 //productos
 const findProd = document.getElementById('findProd')
@@ -157,8 +158,9 @@ async function funcFindUser(e) {
         }
     });
     if (response.status === 200 ) {
-        const prod = await response.json();
-        userUpdate.push(prod);
+        const user = await response.json();
+        console.log(user);
+        userUpdate.push(user);
         findUser.reset();
 
         const userData = userUpdate[0].payload;
@@ -241,5 +243,18 @@ async function delUser(e) {
 };
 
 
+//Eliminar todos los usuarios inactivos
+deleteAll.addEventListener('click',()=>{
+    fetch('/api/users/inactiveUsers', {
+        method: 'DELETE',
+    }).then(result => {
+        if (result.status === 200) {
+            alert('Usuarios sin actividad eliminados');
+        } else if (result.status === 401) {
+            alert('Usuario no encontrado');
+        };
+    }
+    )
 
+});
 

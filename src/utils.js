@@ -2,8 +2,10 @@ import {fileURLToPath} from 'url';
 import { dirname, parse } from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import envCongif from './config/env.config.js';
+import envConfig from './config/env.config.js';
 import {fakerES as faker} from '@faker-js/faker';
+import nodemailer from 'nodemailer';
+import multer from 'multer'
 
 // Encriptacion
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -15,27 +17,32 @@ export const __dirname = dirname(__filename);
 
 
 //Configuracion de Multer para subir archivos
-import multer from 'multer'
-import { title } from 'process';
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, `${__dirname}/public/img`)},
+function createMulterMiddleware(destination) {
+  return multer({
+    storage: multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, destination);
+      },
+      filename: function (req, file, cb) {
+        cb(null, (file.originalname).split(" ").join("_"));
+      },
+    }),
+    onError: function (err, next) {
+      console.log(err);
+      next();
+    },
+  });
+}
 
-        filename: function(req, file, cb) {
-            cb(null, file.originalname)
-        }
-    });    
-export const uploader = multer({storage, onError: function(err, next) {
-    console.log(err);
-    next();
-    }
-});
+export const upProfileImg = createMulterMiddleware(`${__dirname}/public/profile`);
+export const upProdImg = createMulterMiddleware(`${__dirname}/public/products`);
+export const upUserDocs = createMulterMiddleware(`${__dirname}/public/documents`);
 
 
 /////////////////////////////////////////////////////////
 //Config JWT
 ////////////////////////////////////////////////////////
-export const PRIVATE_KEY = envCongif.jwtPrivateKey;
+export const PRIVATE_KEY = envConfig.jwtPrivateKey;
 
 export const generateToken = (user) => {
     return jwt.sign({user}, PRIVATE_KEY, {expiresIn: '60s'})
@@ -74,4 +81,14 @@ export const generateProducts = () => {
 };
     
 
+
+//transporter de Nodemailer
+export const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    auth: {
+        user: envConfig.gmailUser, 
+        pass: envConfig.gmailPass
+    }
+})
 

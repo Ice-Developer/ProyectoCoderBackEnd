@@ -12,10 +12,8 @@ form.addEventListener('submit', e => {
         headers: {
             'Content-Type': 'application/json'
             //aca se setean los headers para el acceso con jwt
-            
         }
     }).then(result => {
-        console.log(result);
         if (result.status === 200) {
             result.json()
             .then(json => { 

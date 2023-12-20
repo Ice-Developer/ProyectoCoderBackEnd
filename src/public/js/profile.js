@@ -41,6 +41,8 @@ if (!userImg) {
 const isAdmin = userRole.id === "admin"
 if (isAdmin) {
     cart.style.display = "none";
+    avatarForm.style.display = "none";
+    userIsPremium.style.display = "none"
 } else {
     accessAdmin.style.display = "none";
 } 
@@ -94,58 +96,6 @@ accessAdmin.addEventListener('click', e => {
     window.location.replace(`/api/users/private/admin`);
 });
 
-/* avatarLabel.addEventListener('click', () => {
-    avatarInput.setAttribute('type', 'file');
-    avatarInput.setAttribute('id', 'avatarInput');
-    avatarInput.style.display = 'none';
-    avatarInput.addEventListener('change', () => {
-        if (avatarInput.files.length > 0) {
-            const fileName = avatarInput.files[0].name;
-            avatarLabel.textContent = fileName;
-        }
-    });
-    avatarInput.click();
-});
-
-
-ldu.addEventListener('click', () => {
-    du.setAttribute('type', 'file');
-    du.setAttribute('id', 'du');
-    du.style.display = 'none';
-    du.addEventListener('change', () => {
-        if (du.files.length > 0) {
-            const fileName = du.files[0].name;
-            ldu.textContent = fileName;
-        }
-    });
-    du.click();
-});
-
-lcd.addEventListener('click', () => {
-    cd.setAttribute('type', 'file');
-    cd.setAttribute('id', 'cd');
-    cd.style.display = 'none';
-    cd.addEventListener('change', () => {
-        if (cd.files.length > 0) {
-            const fileName = cd.files[0].name;
-            lcd.textContent = fileName;
-        }
-    });
-    cd.click();
-});
-
-lec.addEventListener('click', () => {
-    ec.setAttribute('type', 'file');
-    ec.setAttribute('id', 'ec');
-    ec.style.display = 'none';
-    ec.addEventListener('change', () => {
-        if (ec.files.length > 0) {
-            const fileName = ec.files[0].name;
-            lec.textContent = fileName;
-        }
-    });
-    ec.click();
-}); */
 
 function handleAvatarInputChange(input, label){
     input.setAttribute('type', 'file');
@@ -179,21 +129,7 @@ function handleFileInputChange(input, label){
 
 }
 
-/* function handleFileInputChange(input, label) {
-    input.addEventListener('change', () => {
-        if (input.files.length > 0) {
-            const fileName = input.files[0].name;
-            label.textContent = fileName;
-        }
-    });
 
-    label.addEventListener('input', () => {
-        input.setAttribute('type', 'file');
-        input.setAttribute('id', input.id);
-        input.style.display = 'none';
-        input.click();
-    });
-} */
 
 handleAvatarInputChange(avatarInput, avatarLabel);
 handleFileInputChange(du, ldu);

@@ -96,7 +96,7 @@ app.use("/mockingproducts", mockProd);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 
-const PORT = configEnv.port ;
+const PORT = process.env.PORT  || 8080 ;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
     });

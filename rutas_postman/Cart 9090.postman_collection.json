@@ -1,0 +1,182 @@
+{
+	"info": {
+		"_postman_id": "2b5a5452-c6e4-45b2-81c0-5f75699244b3",
+		"name": "Cart 9090",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28638387"
+	},
+	"item": [
+		{
+			"name": "Creat Cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"1243\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/carts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get cart by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/carts/search/64efa2f083cc181932b9e7e4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"carts",
+						"search",
+						"64efa2f083cc181932b9e7e4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put prod into cart",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/carts/65275aea98c208cf5a6690fe/products/add/64f017f75d2d6ec97df7f85a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"carts",
+						"65275aea98c208cf5a6690fe",
+						"products",
+						"add",
+						"64f017f75d2d6ec97df7f85a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Del prod from cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/carts/2/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"carts",
+						"2",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clean Cart",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/carts/2/clean",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"carts",
+						"2",
+						"clean"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/carts/deleteCart/6568cd5e44abcff73fb1c645",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"carts",
+						"deleteCart",
+						"6568cd5e44abcff73fb1c645"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

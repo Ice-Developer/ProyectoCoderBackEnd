@@ -30,9 +30,9 @@ const initializePassport = () => {
 
     //Github Strategy
     passport.use('github',new GitHubStrategy({
-        clientID: process.env.GITHUB_CLIENT_ID ||envCongif.gitHubClientId,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET ||envCongif.gitHubClientSecret,
-        callbackURL: process.env.GITHUB_CALLBACK_URL ||envCongif.gitHubCallbackUrl,
+        clientID: process.env.GITHUB_CLIENT_ID || envCongif.gitHubClientId,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET || envCongif.gitHubClientSecret,
+        callbackURL: process.env.GITHUB_CALLBACK_URL || envCongif.gitHubCallbackUrl,
     
     }, async (accessToken, refreshToken, profile, done) => {
         try {

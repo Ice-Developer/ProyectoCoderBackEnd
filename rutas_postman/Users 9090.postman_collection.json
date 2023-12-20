@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "7b887471-d4d7-4411-b755-53ad03f876b2",
+		"name": "Users 9090",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28638387"
+	},
+	"item": [
+		{
+			"name": "Creat user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"111111\",\r\n    \"last_name\": \"ghgh\",\r\n    \"email\": \"89898989\",\r\n    \"age\": 1,\r\n    \"password\": \"1\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"3\",\r\n    \"password\": \"3\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/users/allUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"allUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"first_name\": \"juan\",\r\n  \"last_name\": \"perez\",\r\n  \"email\": \"asdasd\",\r\n  \"age\": 11,\r\n  \"role\":\"premium\",\r\n  \"last_conection\":\"\",\r\n  \"documents\":\"\"\r\n} \r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/users/update/64f8ff1b4bbb7822b9d47d23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"update",
+						"64f8ff1b4bbb7822b9d47d23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/users/findOne/64f8ff1b4bbb7822b9d47d23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"findOne",
+						"64f8ff1b4bbb7822b9d47d23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/users/deleteOne/64f8fd6ad888f4f6fb9382c2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"deleteOne",
+						"64f8fd6ad888f4f6fb9382c2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inactive",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/users/inactiveUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"inactiveUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "img profile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "Users/Usuario/OneDrive/Imágenes/Capturas de pantalla/Captura de pantalla 2023-12-07 155807.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/users/uploadAvatar/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"uploadAvatar",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add DU user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "du",
+							"type": "file",
+							"src": "Users/Usuario/OneDrive/Imágenes/Capturas de pantalla/Captura de pantalla 2023-12-07 162047.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/users/uploadDocs/du/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"uploadDocs",
+						"du",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add CD user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cd",
+							"type": "file",
+							"src": "Users/Usuario/OneDrive/Imágenes/Capturas de pantalla/Captura de pantalla 2023-12-07 162047.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/users/uploadDocs/cd/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"uploadDocs",
+						"cd",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add EC user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "ec",
+							"type": "file",
+							"src": "Users/Usuario/OneDrive/Imágenes/Capturas de pantalla/Captura de pantalla 2023-12-07 162047.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/users/uploadDocs/ec/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"uploadDocs",
+						"ec",
+						"0"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

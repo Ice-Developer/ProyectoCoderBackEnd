@@ -1,4 +1,6 @@
 const form = document.getElementById('loginForm');
+const pass = document.getElementById('pass');
+const showPass = document.getElementById('showPass');
 
 //request a la api de JWT
 form.addEventListener('submit', e => {
@@ -26,3 +28,11 @@ form.addEventListener('submit', e => {
     });
 });
 
+showPass.addEventListener('click', e => {
+    e.preventDefault();
+    if (pass.type === "password"){
+        pass.setAttribute ('type', 'text');
+    } else {
+        pass.setAttribute ('type', "password") ;
+    }
+})

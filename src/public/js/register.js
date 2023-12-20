@@ -1,4 +1,6 @@
 const form = document.getElementById('registerForm');
+const pass = document.getElementById('pass');
+const showPass = document.getElementById('showPass');
 
 
 form.addEventListener('submit', e => {
@@ -24,4 +26,16 @@ form.addEventListener('submit', e => {
             alert("El Email ya se encuentra registrado");
         }
     })
+})
+
+
+
+//Mostrar contraseña
+showPass.addEventListener('click', e => {
+    e.preventDefault();
+    if (pass.type === "password"){
+        pass.setAttribute ('type', 'text');
+    } else {
+        pass.setAttribute ('type', "password") ;
+    }
 })

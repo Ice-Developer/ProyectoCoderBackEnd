@@ -17,6 +17,7 @@ const avatarForm = document.getElementById('avatarForm');
 const duForm = document.getElementById('duForm');
 const cdForm = document.getElementById('cdForm');
 const ecForm = document.getElementById('ecForm');
+const avatarDiv = document.getElementById('avatarDiv');
 
 
 const userEmail = hiddenUserData.getAttribute('data-user-email')
@@ -41,7 +42,7 @@ if (!userImg) {
 const isAdmin = userRole.id === "admin"
 if (isAdmin) {
     cart.style.display = "none";
-    avatarForm.style.display = "none";
+    avatarDiv.style.display = "none";
     userIsPremium.style.display = "none"
 } else {
     accessAdmin.style.display = "none";

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {registerController, loginController, logoutController, gitHubCallbackController, getAllUsersController, updateUserController, findOneUserController, deleteUserController, imgProfileController,delAllInactiveUsersController} from "../../controllers/user.controller.js";
+import {registerController, loginController, logoutController, gitHubCallbackController, getAllUsersController, updateUserController, findOneUserController, deleteUserController, imgProfileController,delAllInactiveUsersController, userDUController, userCDController, userECController, /* imgProdController */} from "../../controllers/user.controller.js";
 import passport from 'passport';
 import { upProdImg, upProfileImg, upUserDocs } from '../../utils.js';
 
@@ -35,6 +35,13 @@ router.get('/logout', logoutController)
 //subir img de perfil
 router.post('/uploadAvatar/:user', upProfileImg.single('file'), imgProfileController)
 
+//subir img de producto
+/* router.post('/uploadProdImg/:user', upProdImg.single('file'), imgProdController) */
+
+//subir documentos
+router.post('/uploadDocs/du/:user', upUserDocs.single('du'), userDUController)
+router.post('/uploadDocs/cd/:user', upUserDocs.single('cd'), userCDController)
+router.post('/uploadDocs/ec/:user', upUserDocs.single('ec'), userECController)
 
 
 //Logueo con GitHUb

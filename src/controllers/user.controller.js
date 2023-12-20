@@ -120,14 +120,50 @@ export const loginController = async (req, res) => {
 export const imgProfileController = async (req, res) => {
     let email = req.params.user;
     let path = "../profile/"+(req.file.filename)
-    
     const user = await userService.uploadAvatar(email, path);
     if (user) {
         req.logger.info("Imagen de perfil subida con exito")
         return res.status(200).send({ message: "Imagen de perfil subida con exito" }); 
     }
     req.logger.error("Error al subir la imagen de perfil")
+};
+
+//controller subir documentos (DU)
+export const userDUController = async (req, res) => {
+    let email = req.params.user;
+    let path = "../documents/"+(req.file.filename)
+    const user = await userService.uploadDoc(email, path, "DU");
+    if (user) {
+        req.logger.info("Documento subido con exito")
+        return res.status(200).send({ message: "Documento subido con exito" }); 
+    }
+    req.logger.error("Error al subir el documento")
+};
+
+//controller subir documentos (CD)
+export const userCDController = async (req, res) => {
+    let email = req.params.user;
+    let path = "../documents/"+(req.file.filename)
+    const user = await userService.uploadDoc(email,path, "CD");
+    if (user) {
+        req.logger.info("Documento subido con exito")
+        return res.status(200).send({ message: "Documento subido con exito" }); 
+    }
+    req.logger.error("Error al subir el documento")
+};
+//controller subir documentos (EC)
+export const userECController = async (req, res) => {
+    let email = req.params.user;
+    let path = "../documents/"+(req.file.filename)
+    const user = await userService.uploadDoc(email,path,"EC");
+    if (user) {
+        req.logger.info("Documento subido con exito")
+        return res.status(200).send({ message: "Documento subido con exito" }); 
+    }
+    req.logger.error("Error al subir el documento")
+
 }
+
 
 export const logAuthenticate = async (req, res) => {
     let page = parseInt(req.query.page);

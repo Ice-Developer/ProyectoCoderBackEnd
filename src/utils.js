@@ -6,6 +6,7 @@ import envConfig from './config/env.config.js';
 import {fakerES as faker} from '@faker-js/faker';
 import nodemailer from 'nodemailer';
 import multer from 'multer'
+import userModel from './services/dao/mongo/models/userModel.js';
 
 // Encriptacion
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -24,7 +25,17 @@ function createMulterMiddleware(destination) {
         cb(null, destination);
       },
       filename: function (req, file, cb) {
-        cb(null, (file.originalname).split(" ").join("_"));
+        const email = req.params.user;
+        const baseName = file.originalname.slice(file.originalname.length - 4);
+        if (destination === `${__dirname}/public/profile` ){
+          cb(null, `avatar_${email}_${baseName}`);
+        }else if (destination === `${__dirname}/public/products`){
+          cb(null, `prodImg_${email}_${baseName}`);
+        }else{
+          cb(null, file.fieldname +`_${email}_${baseName}`);
+        
+        }
+        
       },
     }),
     onError: function (err, next) {
@@ -90,5 +101,8 @@ export const transporter = nodemailer.createTransport({
         user: envConfig.gmailUser, 
         pass: envConfig.gmailPass
     }
-})
+});
+
+//midelware para chequear y cambiar estado de los usuarios al subir archivos
+
 

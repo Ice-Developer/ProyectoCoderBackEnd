@@ -194,6 +194,42 @@ export default class UserService {
             return null
         }
     };
+
+
+    uploadDoc = async (email, path, docName) => {
+        const exists = await userModel.findOne({ email });
+        const docs = exists.documents;
+        const duExists = docs.some(doc => doc.name === docName);
+        const names = ["DU", "EC", "CD"];        
+    
+        async function premium () {
+            const exists = await userModel.findOne({ email: email });
+            const docs = exists.documents;
+            return docs.filter((objeto) => {
+                return names.includes(objeto.name);
+            }).length === 3;
+            };
+
+        if (duExists) {
+            let delDoc = await userModel.updateOne({ email: email },
+                { $pull: { documents: { name: docName } } });
+            let user = await userModel.updateOne({ email: email },
+                { $push: { documents: { name: docName, reference: path, status: true } } })
+
+            return user
+        }else{
+            let user = await userModel.updateOne({ email: email     },
+            { $push: { documents: { name: docName, reference: path, status: true } } })
+            if (user) {
+                const isPremium = await premium();
+                if (isPremium) {
+                    await userModel.updateOne({ email },
+                        { $set: { role: "premium" } });
+                }
+            }
+            return user
+        };
+    };
 }
 
 

@@ -182,14 +182,14 @@ async function funcFindUser(e) {
         const fechaActual = new Date();
         const last_connection = new Date(userData.last_connection).toLocaleDateString();
 
-        document.getElementById('userId').value = userData._id;
+        document.getElementById('userId').value = userData.id;
         document.getElementById('userFirst').value = userData.first_name;
         document.getElementById('userLast').value = userData.last_name;
         document.getElementById('userEmail').value = userData.email;
         document.getElementById('userRole').value = userData.role;
         document.getElementById('userStatus').value = restaFechas(fechaActual, userData.last_connection);
         document.getElementById('last_connection').value = last_connection;
-        document.getElementById('userDoc').value = userData.documents;
+        document.getElementById('userDoc').value = userData.documents.length === 3 ? "Documentación completa": "Falta completar documentación";
 
         const userStatus = document.getElementById('userStatus')
         userStatus.value === "Activo" ? userStatus.style.color = "green" : userStatus.style.color = "red";

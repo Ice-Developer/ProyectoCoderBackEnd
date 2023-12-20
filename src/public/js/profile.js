@@ -3,8 +3,24 @@ const accessAdmin = document.getElementById('accessAdmin');
 const cart = document.getElementById('cart');
 const btnsAddCart = document.getElementsByClassName('btnAddCart');
 const userRole = document.getElementsByClassName('userRole')[0];
+const userIsPremium = document.getElementById('userIsPremium');
+const du = document.getElementById('du');
+const ldu = document.getElementById('ldu');
+const cd = document.getElementById('cd');
+const lcd = document.getElementById('lcd');
+const ec = document.getElementById('ec');
+const lec = document.getElementById('lec');
+const avatarLabel = document.getElementById('avatarLabel');
+const avatarInput = document.getElementById('avatarInput');
+const hiddenUserData = document.getElementById('hiddenUserData');
+const avatarForm = document.getElementById('avatarForm');
+const duForm = document.getElementById('duForm');
+const cdForm = document.getElementById('cdForm');
+const ecForm = document.getElementById('ecForm');
 
 
+const userEmail = hiddenUserData.getAttribute('data-user-email')
+const userImg = hiddenUserData.getAttribute('data-user-profile')
 
 logout.addEventListener('click', e => {
     e.preventDefault();
@@ -18,6 +34,9 @@ logout.addEventListener('click', e => {
     })
 })
 
+if (!userImg) {
+   
+}
 
 const isAdmin = userRole.id === "admin"
 if (isAdmin) {
@@ -26,6 +45,10 @@ if (isAdmin) {
     accessAdmin.style.display = "none";
 } 
 
+const isPremium = userRole.id === "premium"
+if (isPremium) {
+    userIsPremium.style.display = "none";
+}
 
 
 for (let i = 0; i < btnsAddCart.length; i++) {
@@ -71,19 +94,187 @@ accessAdmin.addEventListener('click', e => {
     window.location.replace(`/api/users/private/admin`);
 });
 
-/* btnAdmin.addEventListener('click', e => {
-    e.preventDefault();
-    alert('Acceso denegado');
-}) */
+/* avatarLabel.addEventListener('click', () => {
+    avatarInput.setAttribute('type', 'file');
+    avatarInput.setAttribute('id', 'avatarInput');
+    avatarInput.style.display = 'none';
+    avatarInput.addEventListener('change', () => {
+        if (avatarInput.files.length > 0) {
+            const fileName = avatarInput.files[0].name;
+            avatarLabel.textContent = fileName;
+        }
+    });
+    avatarInput.click();
+});
 
-/* document.addEventListener('DOMContentLoaded', function() {
-    // Coloca aquí el código para agregar eventos a los botones "admin"
-    const adminButtons = document.getElementsByClassName('admin');
 
-    for (let i = 0; i < adminButtons.length; i++) {
-        adminButtons[i].addEventListener('click', function() {
-            alert('Alerta: Botón de administrador clickeado');
-            // Agrega aquí cualquier otra lógica que desees ejecutar cuando se haga clic en el botón de administrador
-        });
-    }
+ldu.addEventListener('click', () => {
+    du.setAttribute('type', 'file');
+    du.setAttribute('id', 'du');
+    du.style.display = 'none';
+    du.addEventListener('change', () => {
+        if (du.files.length > 0) {
+            const fileName = du.files[0].name;
+            ldu.textContent = fileName;
+        }
+    });
+    du.click();
+});
+
+lcd.addEventListener('click', () => {
+    cd.setAttribute('type', 'file');
+    cd.setAttribute('id', 'cd');
+    cd.style.display = 'none';
+    cd.addEventListener('change', () => {
+        if (cd.files.length > 0) {
+            const fileName = cd.files[0].name;
+            lcd.textContent = fileName;
+        }
+    });
+    cd.click();
+});
+
+lec.addEventListener('click', () => {
+    ec.setAttribute('type', 'file');
+    ec.setAttribute('id', 'ec');
+    ec.style.display = 'none';
+    ec.addEventListener('change', () => {
+        if (ec.files.length > 0) {
+            const fileName = ec.files[0].name;
+            lec.textContent = fileName;
+        }
+    });
+    ec.click();
 }); */
+
+function handleAvatarInputChange(input, label){
+    input.setAttribute('type', 'file');
+    input.setAttribute('id', input);
+    input.style.display = 'none';
+    label.addEventListener('click', () => {
+        input.click();
+    })
+        input.addEventListener('change', () => {
+            if (input.files.length > 0) {
+                const fileName = input.files[0].name;
+                label.textContent = fileName;
+            }
+        });
+
+}
+
+function handleFileInputChange(input, label){
+    input.setAttribute('type', 'file');
+    input.setAttribute('id', input);
+    input.style.display = 'none';
+    label.addEventListener('click', () => {
+        input.click();
+    })
+        input.addEventListener('change', () => {
+            if (input.files.length > 0) {
+                const fileName = input.files[0].name;
+                label.textContent = fileName;
+            }
+        });
+
+}
+
+/* function handleFileInputChange(input, label) {
+    input.addEventListener('change', () => {
+        if (input.files.length > 0) {
+            const fileName = input.files[0].name;
+            label.textContent = fileName;
+        }
+    });
+
+    label.addEventListener('input', () => {
+        input.setAttribute('type', 'file');
+        input.setAttribute('id', input.id);
+        input.style.display = 'none';
+        input.click();
+    });
+} */
+
+handleAvatarInputChange(avatarInput, avatarLabel);
+handleFileInputChange(du, ldu);
+handleFileInputChange(cd, lcd);
+handleFileInputChange(ec, lec);
+    
+    avatarForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('file', avatarInput.files[0]);
+        try {
+            const response = await fetch(`/api/users/uploadAvatar/${userEmail}`, {
+                method: 'POST',
+                body: formData
+            });
+            if (response.ok) {
+                alert('Avatar actualizado');
+                location.reload(true)
+            } else {
+                console.error('Error al subir el archivo');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    duForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('du', du.files[0]);
+        try {
+            const response = await fetch(`/api/users/uploadDocs/du/${userEmail}`, {
+                method: 'POST',
+                body: formData
+            });
+            if (response.ok) {
+                alert('DNI actualizado');
+                location.reload(true)
+            } else {
+                console.error('Error al subir el archivo');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    cdForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('cd', cd.files[0]);
+        try {
+            const response = await fetch(`/api/users/uploadDocs/cd/${userEmail}`, {
+                method: 'POST',
+                body: formData
+            });
+            if (response.ok) {
+                alert('Certificado de domicilio actualizado');
+                location.reload(true)
+            } else {
+                console.error('Error al subir el archivo');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+    ecForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('ec', ec.files[0]);
+        try {
+            const response = await fetch(`/api/users/uploadDocs/ec/${userEmail}`, {
+                method: 'POST',
+                body: formData
+            });
+            if (response.ok) {
+                alert('Certificado de domicilio actualizado');
+                location.reload(true)
+            } else {
+                console.error('Error al subir el archivo');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });

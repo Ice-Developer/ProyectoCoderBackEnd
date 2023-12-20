@@ -20,7 +20,7 @@ form.addEventListener('submit', e => {
                 window.location.replace('/users');
             } 
             )}
-            else if (result.status === 500) {
+            else {
                 alert('Usuario o contraseña incorrectos');
             };
     });
